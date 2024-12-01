@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
-import { client, urlFor } from '../../sanity'
+import { client, urlFor } from '../../sanity.'
 
 async function getProjects() {
   return await client.fetch(`*[_type == "project"] | order(_createdAt desc)`)

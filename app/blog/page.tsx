@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { client } from '../../sanity'
+import { client } from '../../sanity.'
 
 async function getPosts() {
   return await client.fetch(`*[_type == "post"] | order(_createdAt desc)`)
