@@ -49,3 +49,14 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* Main content scrolling styles */
+main {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+main > * {
+  flex-shrink: 0; /* Prevents content from shrinking */
+}

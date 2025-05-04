@@ -1,17 +1,30 @@
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import { client } from "@/studio/lib/client";
 import Titlebar from "./components/Titlebar";
+import Sidebar from "./components/Sidebar";
+import Explorer from "./components/Explorer";
+import Tabsbar from "./components/Tabsbar";
+import Bottombar from "./components/Bottombar";
 
 const sourceSans = Source_Sans_3({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Shafayet Ahmmed | Full Stack Developer",
-  description:
-    "Portfolio of Shafayet Ahmmed, a passionate Full Stack Developer",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // Fetch site settings
+  const settings = await client.fetch(`
+    *[_type == "siteSettings"][0] {
+      title,
+      description,
+      mainName
+    }
+  `);
+
+  return {
+    title: settings?.title || "Shafayet Ahmmed | Full Stack Developer",
+    description: settings?.description || "Portfolio of Shafayet Ahmmed, a passionate Full Stack Developer",
+  };
+}
 
 export default function RootLayout({
   children,
@@ -20,12 +33,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body
-        className={`${sourceSans.className} bg-[--main-bg] text-[--text-color]`}
-      >
+      <body className={`${sourceSans.className} bg-[--main-bg] text-[--text-color] flex flex-col h-screen`}>
         <Titlebar />
-        <main className="min-h-screen bg-[--main-bg]">{children}</main>
-        <Footer />
+        <div className="flex-1 flex overflow-hidden">
+          <Sidebar />
+          <Explorer />
+          <div className="flex flex-col flex-1">
+            <Tabsbar />
+            <main className="flex-1 overflow-y-auto p-8 bg-[--main-bg]">
+              <div className="min-h-full">
+                {children}
+              </div>
+            </main>
+          </div>
+        </div>
+        <Bottombar />
       </body>
     </html>
   );
