@@ -6,8 +6,15 @@ const ErrorIcon = () => (
   </svg>
 );
 
-const WarningIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+const WarningIcon = ({ className }: { className?: string }) => (
+  <svg 
+    width="16" 
+    height="16" 
+    viewBox="0 0 16 16" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
     <path d="M7.56 0H8.44L16 15H0L7.56 0ZM8 12.5C7.17 12.5 6.5 13.17 6.5 14C6.5 14.83 7.17 15.5 8 15.5C8.83 15.5 9.5 14.83 9.5 14C9.5 13.17 8.83 12.5 8 12.5ZM7 5V11H9V5H7Z" fill="#CCA700" />
   </svg>
 );
