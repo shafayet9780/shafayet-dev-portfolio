@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn.sanity.io",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
+      },
     ],
   },
   eslint: {
