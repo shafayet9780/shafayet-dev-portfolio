@@ -1,4 +1,4 @@
-import { apiVersion, dataset, projectId } from './env';
+import { apiVersion, dataset, projectId } from '../../lib/env';
 
 export const config = {
   projectId,
