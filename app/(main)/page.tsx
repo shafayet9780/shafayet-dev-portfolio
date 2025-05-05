@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Illustration from "./components/Illustration";
+import Illustration from "../components/Illustration";
 import { client } from "@/studio/lib/client";
 
 async function getData() {
