@@ -59,7 +59,7 @@ export default function Explorer() {
   const [portfolioOpen, setPortfolioOpen] = useState(true);
 
   return (
-    <div className="w-[220px] flex-shrink-0 overflow-y-auto bg-[--explorer-bg] text-[--text-color] border-r border-[--explorer-border] scrollbar-hide">
+    <div className="bg-[--explorer-bg] w-64 hidden md:block overflow-y-auto border-r border-[--explorer-border]">
       <p className="p-4 pb-2 uppercase text-xs font-medium tracking-wider opacity-50">Explorer</p>
       <div>
         <input
