@@ -4,22 +4,33 @@ import { useState, useEffect } from 'react';
 
 export default function ThemeSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('github-dark');
+  const [currentTheme, setCurrentTheme] = useState('');
   
   const themes = [
-    { id: 'github-dark', name: 'GitHub Dark' },
-    { id: 'dracula', name: 'Dracula' },
-    { id: 'nord', name: 'Nord' },
-    { id: 'night-owl', name: 'Night Owl' }
+    // Dark themes
+    { id: '', name: 'GitHub Dark', category: 'dark' }, // Default theme (no data-theme attribute)
+    { id: 'dracula', name: 'Dracula', category: 'dark' },
+    { id: 'nord', name: 'Nord', category: 'dark' },
+    { id: 'night-owl', name: 'Night Owl', category: 'dark' },
+    { id: 'vs-dark', name: 'Visual Studio Dark', category: 'dark' },
+    { id: 'dark-modern', name: 'Dark Modern', category: 'dark' },
+    // Light themes
+    { id: 'vs-light', name: 'Visual Studio Light', category: 'light' },
+    { id: 'light-modern', name: 'Light Modern', category: 'light' },
   ];
   
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'github-dark';
+    const savedTheme = localStorage.getItem('theme') || '';
     setCurrentTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
   
   const setTheme = (themeId: string) => {
-    document.documentElement.setAttribute('data-theme', themeId);
+    if (themeId === '') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', themeId);
+    }
     localStorage.setItem('theme', themeId);
     setCurrentTheme(themeId);
     setIsOpen(false);
@@ -38,18 +49,42 @@ export default function ThemeSwitcher() {
       </button>
       
       {isOpen && (
-        <div className="absolute bottom-full right-0 mb-2 bg-[--article-bg] rounded-md shadow-lg overflow-hidden w-48">
-          {themes.map((theme) => (
-            <button
-              key={theme.id}
-              onClick={() => setTheme(theme.id)}
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-[--explorer-hover-bg] ${
-                currentTheme === theme.id ? 'bg-[--explorer-hover-bg] text-[--accent-color]' : ''
-              }`}
-            >
-              {theme.name}
-            </button>
-          ))}
+        <div className="absolute bottom-full right-0 mb-2 bg-[--article-bg] rounded-md shadow-lg overflow-hidden w-56">
+          <div className="py-1 px-3 text-xs font-semibold text-[--accent-color] border-b border-[--explorer-border]">
+            Light Themes
+          </div>
+          {themes
+            .filter(theme => theme.category === 'light')
+            .map((theme) => (
+              <button
+                key={theme.id}
+                onClick={() => setTheme(theme.id)}
+                className={`block w-full text-left px-4 py-2 text-sm hover:bg-[--explorer-hover-bg] ${
+                  currentTheme === theme.id ? 'bg-[--explorer-hover-bg] text-[--accent-color]' : ''
+                }`}
+              >
+                {theme.name}
+              </button>
+            ))
+          }
+          
+          <div className="py-1 px-3 text-xs font-semibold text-[--accent-color] border-b border-t border-[--explorer-border] mt-1">
+            Dark Themes
+          </div>
+          {themes
+            .filter(theme => theme.category === 'dark')
+            .map((theme) => (
+              <button
+                key={theme.id}
+                onClick={() => setTheme(theme.id)}
+                className={`block w-full text-left px-4 py-2 text-sm hover:bg-[--explorer-hover-bg] ${
+                  currentTheme === theme.id ? 'bg-[--explorer-hover-bg] text-[--accent-color]' : ''
+                }`}
+              >
+                {theme.name}
+              </button>
+            ))
+          }
         </div>
       )}
     </div>

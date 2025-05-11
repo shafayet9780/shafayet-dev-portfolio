@@ -4,7 +4,9 @@
   --bg-text: rgba(56, 58, 61, 0.35);
   --text-color: #efefef;
   --accent-color: #f9826c;
+  --accent-rgb: 249, 130, 108;
   --titlebar-bg: #1f2428;
+  --titlebar-text: #efefef;
   --sidebar-bg: #24292e;
   --sidebar-hover-bg: #1f2428;
   --explorer-bg: #1f2428;
@@ -30,7 +32,9 @@
   --bg-text: #313340;
   --text-color: #efefef;
   --accent-color: #bd93f9;
+  --accent-rgb: 189, 147, 249;
   --titlebar-bg: #1e1f29;
+  --titlebar-text: #f8f8f2;
   --sidebar-bg: #343746;
   --sidebar-hover-bg: #3c3d51;
   --explorer-bg: #21222c;
@@ -56,7 +60,9 @@
   --bg-text: #3b414d;
   --text-color: #efefef;
   --accent-color: #88c0d0;
+  --accent-rgb: 136, 192, 208;
   --titlebar-bg: #1f2428;
+  --titlebar-text: #eceff4;
   --sidebar-bg: #2e3440;
   --sidebar-hover-bg: #434c5e;
   --explorer-bg: #2e3440;
@@ -82,7 +88,9 @@
   --bg-text: #031d33;
   --text-color: #89a4bb;
   --accent-color: rgb(95, 126, 151);
+  --accent-rgb: 95, 126, 151;
   --titlebar-bg: #011627;
+  --titlebar-text: #d6deeb;
   --sidebar-bg: #011627;
   --sidebar-hover-bg: #0e293f;
   --explorer-bg: #011627;
@@ -100,4 +108,120 @@
   --scrollbar-track-bg: #011627;
   --scrollbar-thumb-bg: #043254;
   --article-bg: #031d33;
+}
+
+/* Visual Studio Light */
+[data-theme='vs-light'] {
+  --main-bg: #ffffff;
+  --bg-text: #f3f3f3;
+  --text-color: #333333;
+  --accent-color: #0066b8;
+  --accent-rgb: 0, 102, 184;
+  --titlebar-bg: #dddddd;
+  --titlebar-text: #333333;
+  --sidebar-bg: #f3f3f3;
+  --sidebar-hover-bg: #e8e8e8;
+  --explorer-bg: #f3f3f3;
+  --explorer-hover-bg: #e8e8e8;
+  --explorer-border: #e7e7e7;
+  --tabs-bg: #ececec;
+  --tab-bg: #ececec;
+  --tab-active-bg: #ffffff;
+  --tab-border: #e7e7e7;
+  --bottombar-bg: #007acc;
+  --bottombar-text: #ffffff;
+  --bottombar-border: #e7e7e7;
+  --button-bg: #0066b8;
+  --button-text: #ffffff;
+  --bottombar-hover-bg: #006bb3;
+  --scrollbar-track-bg: #f3f3f3;
+  --scrollbar-thumb-bg: #c1c1c1;
+  --article-bg: #ffffff;
+}
+
+/* Light Modern */
+[data-theme='light-modern'] {
+  --main-bg: #fafafa;
+  --bg-text: #f0f0f0;
+  --text-color: #333333;
+  --accent-color: #4075cc;
+  --accent-rgb: 64, 117, 204;
+  --titlebar-bg: #f0f0f0;
+  --titlebar-text: #333333;
+  --sidebar-bg: #f0f0f0;
+  --sidebar-hover-bg: #e6e6e6;
+  --explorer-bg: #f5f5f5;
+  --explorer-hover-bg: #e6e6e6;
+  --explorer-border: #e0e0e0;
+  --tabs-bg: #f0f0f0;
+  --tab-bg: #f0f0f0;
+  --tab-active-bg: #ffffff;
+  --tab-border: #e0e0e0;
+  --bottombar-bg: #f0f0f0;
+  --bottombar-text: #333333;
+  --bottombar-border: #e0e0e0;
+  --button-bg: #4075cc;
+  --button-text: #ffffff;
+  --bottombar-hover-bg: #e0e0e0;
+  --scrollbar-track-bg: #f5f5f5;
+  --scrollbar-thumb-bg: #cdcdcd;
+  --article-bg: #ffffff;
+}
+
+/* Visual Studio Dark */
+[data-theme='vs-dark'] {
+  --main-bg: #1e1e1e;
+  --bg-text: #252526;
+  --text-color: #d4d4d4;
+  --accent-color: #007acc;
+  --accent-rgb: 0, 122, 204;
+  --titlebar-bg: #3c3c3c;
+  --titlebar-text: #cccccc;
+  --sidebar-bg: #252526;
+  --sidebar-hover-bg: #2a2d2e;
+  --explorer-bg: #252526;
+  --explorer-hover-bg: #2a2d2e;
+  --explorer-border: #252526;
+  --tabs-bg: #252526;
+  --tab-bg: #2d2d2d;
+  --tab-active-bg: #1e1e1e;
+  --tab-border: #252526;
+  --bottombar-bg: #007acc;
+  --bottombar-text: #ffffff;
+  --bottombar-border: #007acc;
+  --button-bg: #4d4d4d;
+  --button-text: #ffffff;
+  --bottombar-hover-bg: #006bb3;
+  --scrollbar-track-bg: #1e1e1e;
+  --scrollbar-thumb-bg: #424242;
+  --article-bg: #252526;
+}
+
+/* Dark Modern */
+[data-theme='dark-modern'] {
+  --main-bg: #1f1f1f;
+  --bg-text: #2d2d2d;
+  --text-color: #cccccc;
+  --accent-color: #3794ff;
+  --accent-rgb: 55, 148, 255;
+  --titlebar-bg: #323233;
+  --titlebar-text: #cccccc;
+  --sidebar-bg: #252526;
+  --sidebar-hover-bg: #2a2d2e;
+  --explorer-bg: #252526;
+  --explorer-hover-bg: #2a2d2e;
+  --explorer-border: #303031;
+  --tabs-bg: #252526;
+  --tab-bg: #2d2d2d;
+  --tab-active-bg: #1e1e1e;
+  --tab-border: #252526;
+  --bottombar-bg: #0078d4;
+  --bottombar-text: #ffffff;
+  --bottombar-border: #0078d4;
+  --button-bg: #3a3a3a;
+  --button-text: #cccccc;
+  --bottombar-hover-bg: #3a3a3a;
+  --scrollbar-track-bg: #1f1f1f;
+  --scrollbar-thumb-bg: #424242;
+  --article-bg: #252526;
 }

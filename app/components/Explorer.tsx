@@ -59,9 +59,9 @@ export default function Explorer() {
   const [portfolioOpen, setPortfolioOpen] = useState(true);
 
   return (
-    <div className="bg-[--explorer-bg] w-64 hidden md:block overflow-y-auto border-r border-[--explorer-border]">
-      <p className="p-4 pb-2 uppercase text-xs font-medium tracking-wider opacity-50">Explorer</p>
-      <div>
+    <div className="bg-[--explorer-bg] text-[--text-color] w-64 h-full flex flex-col overflow-hidden border-r border-[--explorer-border]">
+      <p className="p-4 pb-2 uppercase text-xs font-medium tracking-wider opacity-50 flex-shrink-0">Explorer</p>
+      <div className="flex-1 overflow-y-auto">
         <input
           type="checkbox"
           className="absolute opacity-0 w-0 h-0"

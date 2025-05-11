@@ -1,12 +1,8 @@
 import { client } from "@/studio/lib/client";
 import { Metadata } from "next";
 import Titlebar from "../components/Titlebar";
-import Sidebar from "../components/Sidebar";
-import Explorer from "../components/Explorer";
-import Tabsbar from "../components/Tabsbar";
-import Bottombar from "../components/Bottombar";
-import ThemeSwitcher from "../components/ThemeSwitcher";
 import ClientThemeProvider from "../components/ClientThemeProvider";
+import ResponsiveLayout from "@/app/(main)/ResponsiveLayout";
 
 export async function generateMetadata(): Promise<Metadata> {
   // Fetch site settings
@@ -31,26 +27,18 @@ export default function MainLayout({
 }) {
   return (
     <ClientThemeProvider>
-      <div className="bg-[--main-bg] text-[--text-color] flex flex-col h-screen">
-        <Titlebar />
-        <div className="flex-1 flex overflow-hidden relative">
-          <Sidebar />
-          <Explorer />
-          <div className="flex flex-col flex-1">
-            <Tabsbar />
-            <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-[--main-bg]">
-              <div className="min-h-full">
-                {children}
-              </div>
-            </main>
-          </div>
-          
-          {/* Quick theme switcher */}
-          <div className="fixed bottom-10 right-5 md:right-8 z-10">
-            <ThemeSwitcher />
-          </div>
+      <div className="flex flex-col h-screen overflow-hidden">
+        {/* Titlebar is a server component with async data fetching */}
+        <div className="flex-shrink-0">
+          <Titlebar />
         </div>
-        <Bottombar />
+        
+        {/* ResponsiveLayout is a client component */}
+        <div className="flex-1 overflow-hidden">
+          <ResponsiveLayout>
+            {children}
+          </ResponsiveLayout>
+        </div>
       </div>
     </ClientThemeProvider>
   );

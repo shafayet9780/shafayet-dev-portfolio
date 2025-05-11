@@ -16,10 +16,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={sourceSans.className}>
-        {children}
-      </body>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script 
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                let theme = localStorage.getItem('theme');
+                
+                if (theme === 'vs-light' || (!theme && !isDark)) {
+                  document.documentElement.setAttribute('data-theme', 'vs-light');
+                } else if (theme) {
+                  document.documentElement.setAttribute('data-theme', theme);
+                }
+              } catch (e) {}
+            `
+          }}
+        />
+      </head>
+      <body className={sourceSans.className} suppressHydrationWarning>{children}</body>
     </html>
   );
 }

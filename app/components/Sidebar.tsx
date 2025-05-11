@@ -93,7 +93,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="h-[calc(100vh-30px)] w-[50px] bg-[--sidebar-bg] flex flex-col justify-between z-30">
+    <aside className="w-[50px] h-full bg-[--sidebar-bg] text-[--text-color] flex flex-col justify-between z-30">
       <div className="flex flex-col">
         {sidebarTopItems.map(({ Icon, path, label }) => (
           <Link href={path} key={path}>
@@ -101,7 +101,7 @@ export default function Sidebar() {
               className={`flex justify-center items-center h-[50px] w-[50px] transition-colors duration-200 cursor-pointer hover:bg-[--sidebar-hover-bg] border-l-2 ${
                 pathname === path
                   ? 'border-[--accent-color] text-[--text-color]'
-                  : 'border-transparent text-[#6A737D]'
+                  : 'border-transparent text-[--text-color] opacity-60'
               }`}
               title={label}
             >
@@ -117,7 +117,7 @@ export default function Sidebar() {
               className={`flex justify-center items-center h-[50px] w-[50px] transition-colors duration-200 cursor-pointer hover:bg-[--sidebar-hover-bg] border-l-2 ${
                 pathname === path
                   ? 'border-[--accent-color] text-[--text-color]'
-                  : 'border-transparent text-[#6A737D]'
+                  : 'border-transparent text-[--text-color] opacity-60'
               }`}
               title={label}
             >
