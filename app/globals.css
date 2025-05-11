@@ -11,6 +11,7 @@
   --main-bg: #24292e;
   --bg-text: rgba(56, 58, 61, 0.35);
   --text-color: #efefef;
+  --text-rgb: 239, 239, 239;
   --accent-color: #f9826c;
   --titlebar-bg: #1f2428;
   --sidebar-bg: #24292e;
@@ -30,6 +31,8 @@
   --scrollbar-track-bg: #24292e;
   --scrollbar-thumb-bg: #333536;
   --article-bg: #1f2428;
+  --editor-bg: #1f2428;
+  --titlebar-border: #24292e;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -48,6 +51,16 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+/* Typing cursor animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-cursor {
+  animation: blink 1s step-end infinite;
 }
 
 /* Ensure text colors work in all themes */
