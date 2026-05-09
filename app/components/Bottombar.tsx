@@ -46,20 +46,20 @@ const SourceControlIcon = () => (
 
 export default function Bottombar() {
   return (
-    <footer className="h-[25px] bg-[--bottombar-bg] text-[--bottombar-text] flex justify-between text-sm border-t border-[--bottombar-border]">
+    <footer className="h-[25px] bg-(--bottombar-bg) text-(--bottombar-text) flex justify-between text-sm border-t border-(--bottombar-border)">
       {/* Left section */}
       <div className="flex items-center">
         <a
           href="https://github.com/shafayet-dev/portfolio"
           target="_blank"
           rel="noreferrer noopener"
-          className="px-2 h-full flex items-center hover:bg-[--bottombar-hover-bg] transition-colors group"
+          className="px-2 h-full flex items-center hover:bg-(--bottombar-hover-bg) transition-colors group"
         >
           <SourceControlIcon />
           <p className="ml-1 font-medium tracking-tight group-hover:translate-x-0.5 transition-transform">main</p>
         </a>
         
-        <div className="h-full px-2 flex items-center hover:bg-[--bottombar-hover-bg] transition-colors">
+        <div className="h-full px-2 flex items-center hover:bg-(--bottombar-hover-bg) transition-colors">
           <div className="flex items-center space-x-2">
             <div className="flex items-center">
               <ErrorIcon />
@@ -76,17 +76,17 @@ export default function Bottombar() {
       
       {/* Right section */}
       <div className="flex items-center">
-        <div className="h-full px-2 flex items-center hover:bg-[--bottombar-hover-bg] transition-colors group">
+        <div className="h-full px-2 flex items-center hover:bg-(--bottombar-hover-bg) transition-colors group">
           <NextjsIcon />
           <p className="ml-1 group-hover:translate-x-0.5 transition-transform">Next.js + Sanity</p>
         </div>
         
-        <div className="h-full px-2 flex items-center hover:bg-[--bottombar-hover-bg] transition-colors group">
+        <div className="h-full px-2 flex items-center hover:bg-(--bottombar-hover-bg) transition-colors group">
           <CheckIcon />
           <p className="ml-1 group-hover:translate-x-0.5 transition-transform">Prettier</p>
         </div>
         
-        <div className="h-full px-2 flex items-center hover:bg-[--bottombar-hover-bg] transition-colors">
+        <div className="h-full px-2 flex items-center hover:bg-(--bottombar-hover-bg) transition-colors">
           <BellIcon />
         </div>
       </div>

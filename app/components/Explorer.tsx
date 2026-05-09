@@ -59,8 +59,8 @@ export default function Explorer() {
   const [portfolioOpen, setPortfolioOpen] = useState(true);
 
   return (
-    <div className="bg-[--explorer-bg] text-[--text-color] w-64 h-full flex flex-col overflow-hidden border-r border-[--explorer-border]">
-      <p className="p-4 pb-2 uppercase text-xs font-medium tracking-wider opacity-50 flex-shrink-0">Explorer</p>
+    <div className="bg-(--explorer-bg) text-(--text-color) w-64 h-full flex flex-col overflow-hidden border-r border-(--explorer-border)">
+      <p className="p-4 pb-2 uppercase text-xs font-medium tracking-wider opacity-50 shrink-0">Explorer</p>
       <div className="flex-1 overflow-y-auto">
         <input
           type="checkbox"
@@ -71,7 +71,7 @@ export default function Explorer() {
         />
         <label 
           htmlFor="portfolio-checkbox" 
-          className="flex items-center px-4 py-1 text-sm cursor-pointer hover:bg-[--explorer-hover-bg]"
+          className="flex items-center px-4 py-1 text-sm cursor-pointer hover:bg-(--explorer-hover-bg)"
         >
           <ChevronRight
             className="transform transition-transform duration-150 mr-1"
@@ -85,7 +85,7 @@ export default function Explorer() {
         >
           {explorerItems.map((item) => (
             <Link href={item.path} key={item.name}>
-              <div className="flex items-center px-4 py-1 text-sm cursor-pointer hover:bg-[--explorer-hover-bg]">
+              <div className="flex items-center px-4 py-1 text-sm cursor-pointer hover:bg-(--explorer-hover-bg)">
                 <Image
                   src={item.icon}
                   alt={item.name}

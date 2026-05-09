@@ -43,7 +43,7 @@ export default async function AboutPage() {
                 aboutData.skills.map((skill: string, index: number) => (
                   <span 
                     key={index} 
-                    className="px-3 py-1 bg-[--explorer-hover-bg] rounded-md text-sm"
+                    className="px-3 py-1 bg-(--explorer-hover-bg) rounded-md text-sm"
                   >
                     {skill}
                   </span>
@@ -52,7 +52,7 @@ export default async function AboutPage() {
                 ["JavaScript", "TypeScript", "React", "Next.js", "Node.js"].map((skill, index) => (
                   <span 
                     key={index} 
-                    className="px-3 py-1 bg-[--explorer-hover-bg] rounded-md text-sm"
+                    className="px-3 py-1 bg-(--explorer-hover-bg) rounded-md text-sm"
                   >
                     {skill}
                   </span>
@@ -72,8 +72,8 @@ export default async function AboutPage() {
               className="rounded-md mx-auto"
             />
           ) : (
-            <div className="w-full h-64 bg-[--explorer-hover-bg] rounded-md flex items-center justify-center">
-              <span className="text-[--text-color] opacity-50">Profile Image</span>
+            <div className="w-full h-64 bg-(--explorer-hover-bg) rounded-md flex items-center justify-center">
+              <span className="text-(--text-color) opacity-50">Profile Image</span>
             </div>
           )}
         </div>

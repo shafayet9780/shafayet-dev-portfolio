@@ -68,8 +68,8 @@ export default function SettingsPage() {
         {themes.map((theme) => (
           <div 
             key={theme.theme}
-            className={`bg-[--article-bg] rounded-md p-4 flex flex-col items-center text-center transition-shadow ${
-              activeTheme === theme.theme ? "ring-2 ring-[--accent-color]" : ""
+            className={`bg-(--article-bg) rounded-md p-4 flex flex-col items-center text-center transition-shadow ${
+              activeTheme === theme.theme ? "ring-2 ring-(--accent-color)" : ""
             }`}
           >
             <div className="w-24 h-24 relative mb-4">
@@ -86,10 +86,10 @@ export default function SettingsPage() {
               <p className="text-xs mb-4 opacity-70">{theme.description}</p>
               <button 
                 onClick={() => setTheme(theme.theme)}
-                className={`px-3 py-1 rounded-sm text-sm ${
+                className={`px-3 py-1 rounded-xs text-sm ${
                   activeTheme === theme.theme 
-                    ? "bg-[--accent-color] text-[--main-bg]" 
-                    : "bg-[--button-bg] text-[--button-text]"
+                    ? "bg-(--accent-color) text-(--main-bg)" 
+                    : "bg-(--button-bg) text-(--button-text)"
                 }`}
               >
                 {activeTheme === theme.theme ? "Active" : "Set Color Theme"}

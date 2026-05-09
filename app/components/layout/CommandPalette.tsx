@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { useRouter } from 'next/navigation';
 
 interface CommandPaletteProps {
@@ -94,7 +94,7 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type a command or search..."
-            className="w-full bg-[#3c3c3c] text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#007acc]"
+            className="w-full bg-[#3c3c3c] text-white px-4 py-2 rounded-md focus:outline-hidden focus:ring-2 focus:ring-[#007acc]"
           />
         </div>
 

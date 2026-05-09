@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="fixed w-full bg-white bg-opacity-70 backdrop-blur-md z-50 dark:bg-gray-800 dark:bg-opacity-70">
+    <header className="fixed w-full bg-white/70 backdrop-blur-md z-50 dark:bg-gray-800/70">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">SA</Link>
         <nav className="hidden md:flex space-x-8">
@@ -18,7 +18,7 @@ const Header = () => {
           <NavLink href="/contact">Contact</NavLink>
         </nav>
         <button
-          className="md:hidden text-gray-500 hover:text-gray-700 focus:outline-none"
+          className="md:hidden text-gray-500 hover:text-gray-700 focus:outline-hidden"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">

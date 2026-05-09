@@ -79,7 +79,7 @@ export default function ContactCode({ socialLinks }: ContactCodeProps) {
   }, [socialLinks]);
 
   return (
-    <div className="p-4 font-mono text-[15px] bg-[--article-bg] rounded-md shadow-md">
+    <div className="p-4 font-mono text-[15px] bg-(--article-bg) rounded-md shadow-md">
       <p>
         <span className="text-[#E99287]">.socials</span> &#123;
       </p>

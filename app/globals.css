@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+@source not "../plans";
 
 :root {
   /* old ones */
@@ -59,12 +59,12 @@ body {
   50% { opacity: 0; }
 }
 
-.animate-cursor {
+@utility animate-cursor {
   animation: blink 1s step-end infinite;
 }
 
 /* Ensure text colors work in all themes */
-.text-\[--text-color\] {
+.text-\(--text-color\) {
   color: var(--text-color) !important;
 }
 
@@ -91,7 +91,7 @@ main::-webkit-scrollbar-thumb {
 }
 
 main > * {
-  flex-shrink: 0; /* Prevents content from shrinking */
+  flex-shrink: 0;
 }
 
 /* Loading bar animation */
@@ -104,43 +104,20 @@ main > * {
   }
 }
 
-.animate-loading-bar {
+@utility animate-loading-bar {
   animation: loading-bar-animation 2s infinite ease-in-out;
 }
 
-/* Glassmorphism effects */
-.backdrop-blur-sm {
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Improved focus styles */
 *:focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 1px;
-}
-
-/* Transitions */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.transition-opacity {
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.transition-colors {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
 }
