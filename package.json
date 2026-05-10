@@ -6,32 +6,43 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@portabletext/react": "^3.1.0",
-    "@sanity/client": "^6.22.4",
-    "@sanity/icons": "^3.4.0",
-    "@sanity/image-url": "^1.1.0",
-    "@sanity/vision": "^3.63.0",
-    "framer-motion": "^11.18.2",
-    "next": "15.0.3",
-    "next-sanity": "^9.8.10",
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
-    "react-icons": "^5.3.0",
-    "sanity": "^3.63.0",
-    "styled-components": "^6.1.13"
+    "@portabletext/react": "^6.2.0",
+    "@sanity/client": "^7.22.0",
+    "@sanity/icons": "^3.7.4",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^5.24.0",
+    "motion": "^12.38.0",
+    "next": "16.2.6",
+    "next-sanity": "^12.4.5",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-icons": "^5.6.0",
+    "sanity": "^5.24.0",
+    "styled-components": "^6.4.1"
   },
   "devDependencies": {
-    "@sanity/cli": "^3.63.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "15.0.3",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@eslint/js": "^10.0.1",
+    "@next/eslint-plugin-next": "^16.2.6",
+    "@sanity/cli": "^6.5.1",
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/node": "^25.6.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^10.3.0",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

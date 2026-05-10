@@ -63,7 +63,7 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
   const togglePanels = () => setIsPanelsVisible(!isPanelsVisible);
 
   return (
-    <div className="flex h-full w-full relative bg-[--main-bg] text-[--text-color]">
+    <div className="flex h-full w-full relative bg-(--main-bg) text-(--text-color)">
       {/* Sidebar - toggleable visibility */}
       {(isPanelsVisible || !isMobileView) && (
         <div className={`${isMobileView ? 'absolute' : 'relative'} z-40 h-full`}>
@@ -87,15 +87,15 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
       
       {/* Main content area */}
       <div className={`
-        flex flex-col flex-1 overflow-hidden min-w-0 text-[--text-color]
+        flex flex-col flex-1 overflow-hidden min-w-0 text-(--text-color)
         ${isMobileView && isPanelsVisible ? 'ml-[50px]' : ''}
       `}>
         {/* Mobile toggle bar */}
         {isMobileView && (
-          <div className="h-9 bg-[--explorer-bg] flex items-center px-4 border-b border-[--explorer-border] flex-shrink-0">
+          <div className="h-9 bg-(--explorer-bg) flex items-center px-4 border-b border-(--explorer-border) shrink-0">
             <button 
               onClick={togglePanels}
-              className="text-[--text-color] hover:text-white text-sm flex items-center"
+              className="text-(--text-color) hover:text-white text-sm flex items-center"
               aria-label="Toggle sidebar and explorer"
             >
               <svg 
@@ -120,14 +120,14 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
         )}
         
         {/* Tabs - fixed height */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <Tabsbar />
         </div>
         
         {/* Content - scrollable */}
         <main 
           ref={mainRef} 
-          className="flex-1 overflow-auto bg-[--main-bg] text-[--text-color] p-4 md:p-8 scroll-smooth"
+          className="flex-1 overflow-auto bg-(--main-bg) text-(--text-color) p-4 md:p-8 scroll-smooth"
         >
           <div className="max-w-full">
             {children}
@@ -142,7 +142,7 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
       
       {/* Bottom bar - fixed at the bottom */}
       <div 
-        className="absolute bottom-0 left-0 right-0 z-40 bg-[--bottombar-bg] transform transition-transform duration-300 ease-in-out"
+        className="absolute bottom-0 left-0 right-0 z-40 bg-(--bottombar-bg) transform transition-transform duration-300 ease-in-out"
         style={{ transform: isBottombarVisible ? 'translateY(0)' : 'translateY(100%)' }}
       >
         <Bottombar />
@@ -151,7 +151,7 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
       {/* Overlay for mobile when panels are visible */}
       {isMobileView && isPanelsVisible && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-20"
+          className="fixed inset-0 bg-black/50 z-20"
           onClick={() => setIsPanelsVisible(false)}
           aria-hidden="true"
         />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function ClientThemeProvider({
   children,
@@ -10,8 +10,8 @@ export default function ClientThemeProvider({
   // Set theme on client-side only after component is mounted
   useEffect(() => {
     try {
-      let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      let theme = localStorage.getItem('theme');
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = localStorage.getItem('theme');
       
       if (theme === 'vs-light' || (!theme && !isDark)) {
         document.documentElement.setAttribute('data-theme', 'vs-light');

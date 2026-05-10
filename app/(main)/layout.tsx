@@ -29,7 +29,7 @@ export default function MainLayout({
     <ClientThemeProvider>
       <div className="flex flex-col h-screen overflow-hidden">
         {/* Titlebar is a server component with async data fetching */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <Titlebar />
         </div>
         

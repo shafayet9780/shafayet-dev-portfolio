@@ -101,7 +101,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   return (
     <Link
       href={`/blog/${article.slug.current}`}
-      className="block bg-[--article-bg] rounded-md overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+      className="block bg-(--article-bg) rounded-md overflow-hidden shadow-md hover:shadow-lg transition-shadow"
     >
       <div className="relative h-40">
         {hasValidImage ? (

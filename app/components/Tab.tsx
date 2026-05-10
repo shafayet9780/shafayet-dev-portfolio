@@ -19,8 +19,8 @@ export default function Tab({ icon, filename, path }: TabProps) {
       <div
         className={`h-[40px] px-4 flex items-center text-sm cursor-pointer transition-colors duration-200
           ${isActive 
-            ? 'bg-[--tab-active-bg] text-[--text-color] border-t border-r border-[--tab-border]' 
-            : 'bg-[--tab-bg] text-[#6A737D] hover:text-[--text-color]'
+            ? 'bg-(--tab-active-bg) text-(--text-color) border-t border-r border-(--tab-border)' 
+            : 'bg-(--tab-bg) text-[#6A737D] hover:text-(--text-color)'
           }`}
       >
         <Image src={icon} alt={filename} height={18} width={18} className="mr-1" />

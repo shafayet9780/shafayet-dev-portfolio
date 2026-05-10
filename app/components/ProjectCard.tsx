@@ -33,7 +33,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     : '/placeholder-project.jpg';
   
   return (
-    <div className="bg-[--article-bg] rounded-md overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+    <div className="bg-(--article-bg) rounded-md overflow-hidden shadow-md hover:shadow-lg transition-shadow">
       <div className="relative h-48">
         {hasValidImage ? (
           <Image 
@@ -67,7 +67,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               href={project.sourceCodeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[--accent-color] hover:underline"
+              className="text-sm text-(--accent-color) hover:underline"
             >
               Source Code
             </a>
@@ -77,7 +77,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[--accent-color] hover:underline"
+              className="text-sm text-(--accent-color) hover:underline"
             >
               Live Demo
             </a>

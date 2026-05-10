@@ -23,7 +23,7 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
   }, []);
 
   return (
-    <section className="h-[30px] relative flex items-center justify-between bg-[--titlebar-bg] text-[--titlebar-text] text-[0.85rem] border-b border-[--explorer-border] backdrop-blur-sm">
+    <section className="h-[30px] relative flex items-center justify-between bg-(--titlebar-bg) text-(--titlebar-text) text-[0.85rem] border-b border-(--explorer-border) backdrop-blur-xs">
       {/* Background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(var(--accent-rgb),0.08)] to-transparent opacity-50"></div>
       
@@ -41,7 +41,7 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
         {isMobile ? (
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
-            className="ml-2 flex items-center justify-center hover:bg-[rgba(255,255,255,0.1)] px-2 py-1 rounded-sm transition-colors"
+            className="ml-2 flex items-center justify-center hover:bg-[rgba(255,255,255,0.1)] px-2 py-1 rounded-xs transition-colors"
             aria-label="Menu"
           >
             <svg 
@@ -64,7 +64,7 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
         ) : (
           <div className="flex mr-auto ml-2">
             {["File", "Edit", "View", "Go", "Run", "Terminal", "Help"].map((item) => (
-              <p key={item} className="px-2 cursor-pointer transition-colors duration-150 hover:bg-[rgba(255,255,255,0.1)] rounded-sm">
+              <p key={item} className="px-2 cursor-pointer transition-colors duration-150 hover:bg-[rgba(255,255,255,0.1)] rounded-xs">
                 {item}
               </p>
             ))}
@@ -98,16 +98,16 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
       {isMobile && menuOpen && (
         <>
           <div 
-            className="fixed inset-0 bg-black/30 z-40 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/30 z-40 backdrop-blur-xs"
             onClick={() => setMenuOpen(false)}
           ></div>
-          <div className="absolute top-[30px] left-0 w-48 bg-[--explorer-bg]/95 shadow-lg z-50 backdrop-blur-sm border border-[--explorer-border] rounded-md overflow-hidden">
+          <div className="absolute top-[30px] left-0 w-48 bg-(--explorer-bg)/95 shadow-lg z-50 backdrop-blur-xs border border-(--explorer-border) rounded-md overflow-hidden">
             {["File", "Edit", "View", "Go", "Run", "Terminal", "Help"].map((item) => (
               <p 
                 key={item}
-                className="px-4 py-2 cursor-pointer hover:bg-[--explorer-hover-bg] transition-colors flex items-center"
+                className="px-4 py-2 cursor-pointer hover:bg-(--explorer-hover-bg) transition-colors flex items-center"
               >
-                <span className="w-5 text-[--accent-color] opacity-70">{item.charAt(0)}</span>
+                <span className="w-5 text-(--accent-color) opacity-70">{item.charAt(0)}</span>
                 {item}
               </p>
             ))}

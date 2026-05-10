@@ -40,7 +40,7 @@ export default function ThemeSwitcher() {
     <div className="relative">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-[--accent-color] text-[--main-bg] p-2 rounded-full shadow-lg hover:opacity-90 transition-opacity"
+        className="bg-(--accent-color) text-(--main-bg) p-2 rounded-full shadow-lg hover:opacity-90 transition-opacity"
         title="Change Theme"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,8 +49,8 @@ export default function ThemeSwitcher() {
       </button>
       
       {isOpen && (
-        <div className="absolute bottom-full right-0 mb-2 bg-[--article-bg] rounded-md shadow-lg overflow-hidden w-56">
-          <div className="py-1 px-3 text-xs font-semibold text-[--accent-color] border-b border-[--explorer-border]">
+        <div className="absolute bottom-full right-0 mb-2 bg-(--article-bg) rounded-md shadow-lg overflow-hidden w-56">
+          <div className="py-1 px-3 text-xs font-semibold text-(--accent-color) border-b border-(--explorer-border)">
             Light Themes
           </div>
           {themes
@@ -59,8 +59,8 @@ export default function ThemeSwitcher() {
               <button
                 key={theme.id}
                 onClick={() => setTheme(theme.id)}
-                className={`block w-full text-left px-4 py-2 text-sm hover:bg-[--explorer-hover-bg] ${
-                  currentTheme === theme.id ? 'bg-[--explorer-hover-bg] text-[--accent-color]' : ''
+                className={`block w-full text-left px-4 py-2 text-sm hover:bg-(--explorer-hover-bg) ${
+                  currentTheme === theme.id ? 'bg-(--explorer-hover-bg) text-(--accent-color)' : ''
                 }`}
               >
                 {theme.name}
@@ -68,7 +68,7 @@ export default function ThemeSwitcher() {
             ))
           }
           
-          <div className="py-1 px-3 text-xs font-semibold text-[--accent-color] border-b border-t border-[--explorer-border] mt-1">
+          <div className="py-1 px-3 text-xs font-semibold text-(--accent-color) border-b border-t border-(--explorer-border) mt-1">
             Dark Themes
           </div>
           {themes
@@ -77,8 +77,8 @@ export default function ThemeSwitcher() {
               <button
                 key={theme.id}
                 onClick={() => setTheme(theme.id)}
-                className={`block w-full text-left px-4 py-2 text-sm hover:bg-[--explorer-hover-bg] ${
-                  currentTheme === theme.id ? 'bg-[--explorer-hover-bg] text-[--accent-color]' : ''
+                className={`block w-full text-left px-4 py-2 text-sm hover:bg-(--explorer-hover-bg) ${
+                  currentTheme === theme.id ? 'bg-(--explorer-hover-bg) text-(--accent-color)' : ''
                 }`}
               >
                 {theme.name}

@@ -9,7 +9,7 @@ import {
   useScroll,
   useTransform,
   AnimatePresence,
-} from "framer-motion";
+} from "motion/react";
 
 // Types for data
 interface SiteSettings {
@@ -96,7 +96,7 @@ function TypedEffect({
   return (
     <span className="font-mono inline-flex items-center">
       {displayText}
-      <span className="h-5 w-[1px] animate-cursor bg-[--accent-color] inline-block" />
+      <span className="h-5 w-[1px] animate-cursor bg-(--accent-color) inline-block" />
     </span>
   );
 }
@@ -113,7 +113,7 @@ function GlowingIllustration({ className }: { className?: string }) {
     <div className={`relative inline-block ${className || ''}`}>
       {/* The glow effect */}
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-[--accent-color] to-purple-600 rounded-full blur-3xl opacity-20 pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-(--accent-color) to-purple-600 rounded-full blur-3xl opacity-20 pointer-events-none"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.2, 0.3, 0.2],
@@ -127,9 +127,9 @@ function GlowingIllustration({ className }: { className?: string }) {
 
       {/* The actual illustration */}
       {isClient ? (
-        <Illustration className="relative z-10 w-full max-w-lg text-[--accent-color]" />
+        <Illustration className="relative z-10 w-full max-w-lg text-(--accent-color)" />
       ) : (
-        <div className="relative z-10 w-full max-w-lg h-80 bg-[--editor-bg] rounded-lg opacity-30"></div>
+        <div className="relative z-10 w-full max-w-lg h-80 bg-(--editor-bg) rounded-lg opacity-30"></div>
       )}
     </div>
   );
@@ -275,15 +275,15 @@ function CodeSnippet({
 }) {
   return (
     <div
-      className={`bg-[--editor-bg] rounded-md shadow-xl overflow-hidden ${className}`}
+      className={`bg-(--editor-bg) rounded-md shadow-xl overflow-hidden ${className}`}
     >
-      <div className="flex items-center px-4 py-2 bg-[--titlebar-bg] border-b border-[--titlebar-border]">
+      <div className="flex items-center px-4 py-2 bg-(--titlebar-bg) border-b border-(--titlebar-border)">
         <div className="flex space-x-2 mr-2">
           <div className="w-3 h-3 rounded-full bg-[#ff5f57]"></div>
           <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
           <div className="w-3 h-3 rounded-full bg-[#28ca41]"></div>
         </div>
-        <div className="text-xs text-[--text-color] opacity-70">
+        <div className="text-xs text-(--text-color) opacity-70">
           {language === "javascript"
             ? "script.js"
             : language === "jsx"
@@ -291,7 +291,7 @@ function CodeSnippet({
               : "code.txt"}
         </div>
       </div>
-      <pre className="p-4 text-sm font-mono text-[--text-color] overflow-x-auto">
+      <pre className="p-4 text-sm font-mono text-(--text-color) overflow-x-auto">
         <code>{code}</code>
       </pre>
     </div>
@@ -308,7 +308,7 @@ function ProjectPreview({
 }) {
   return (
     <motion.div
-      className="group bg-[--editor-bg] rounded-lg overflow-hidden shadow-lg border border-[--explorer-border] hover:border-[--accent-color]"
+      className="group bg-(--editor-bg) rounded-lg overflow-hidden shadow-lg border border-(--explorer-border) hover:border-(--accent-color)"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -329,14 +329,14 @@ function ProjectPreview({
         ) : (
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 opacity-80" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[--editor-bg] to-transparent opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-(--editor-bg) to-transparent opacity-60" />
 
         {/* Tags overlay */}
         <div className="absolute bottom-2 left-2 flex flex-wrap gap-1">
           {project.tags?.map((tag, i) => (
             <motion.span
               key={i}
-              className="text-xs px-2 py-1 rounded-full bg-[--accent-color] bg-opacity-30 text-[--text-color]"
+              className="text-xs px-2 py-1 rounded-full bg-(--accent-color)/30 text-(--text-color)"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 + i * 0.05 }}
@@ -348,22 +348,22 @@ function ProjectPreview({
       </div>
 
       <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2 text-[--text-color] group-hover:text-[--accent-color]">
+        <h3 className="text-lg font-semibold mb-2 text-(--text-color) group-hover:text-(--accent-color)">
           {project.title}
         </h3>
-        <p className="text-sm text-[--text-color] opacity-70 line-clamp-2">
+        <p className="text-sm text-(--text-color) opacity-70 line-clamp-2">
           {project.description}
         </p>
       </div>
 
-      <div className="border-t border-[--explorer-border] p-3 flex justify-end">
+      <div className="border-t border-(--explorer-border) p-3 flex justify-end">
         <motion.div
           whileHover={{ x: 4 }}
           transition={{ type: "spring", stiffness: 400 }}
         >
           <Link
             href={`/projects/${project.slug?.current || "#"}`}
-            className="text-sm text-[--accent-color] hover:underline flex items-center"
+            className="text-sm text-(--accent-color) hover:underline flex items-center"
           >
             View Project
             <svg
@@ -506,7 +506,7 @@ function connect() {
         }}
         className="min-h-[calc(100vh-150px)] flex flex-col justify-center relative"
       >
-        <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[--bg-text] opacity-[0.03] whitespace-nowrap pointer-events-none">
+        <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-(--bg-text) opacity-[0.03] whitespace-nowrap pointer-events-none">
           <motion.h1
             className="text-8xl md:text-[200px] font-bold tracking-tighter"
             initial={{ opacity: 0, y: -20 }}
@@ -527,13 +527,13 @@ function connect() {
             >
               <div className="flex space-x-3 items-center">
                 <motion.div
-                  className="h-1 w-12 bg-[--accent-color]"
+                  className="h-1 w-12 bg-(--accent-color)"
                   initial={{ width: 0 }}
                   animate={{ width: 48 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                 ></motion.div>
                 <motion.span
-                  className="text-[--accent-color] font-mono tracking-wide"
+                  className="text-(--accent-color) font-mono tracking-wide"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
@@ -543,14 +543,14 @@ function connect() {
               </div>
 
               <motion.h1
-                className="text-4xl md:text-6xl font-bold text-[--text-color] leading-tight"
+                className="text-4xl md:text-6xl font-bold text-(--text-color) leading-tight"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 I'm{" "}
                 <motion.span
-                  className="text-[--accent-color]"
+                  className="text-(--accent-color)"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
@@ -566,7 +566,7 @@ function connect() {
               </motion.h1>
 
               <motion.p
-                className="text-lg text-[--text-color] opacity-70 max-w-2xl"
+                className="text-lg text-(--text-color) opacity-70 max-w-2xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 0.7, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
@@ -582,7 +582,7 @@ function connect() {
               >
                 <Link href={ctaLink || "#"}>
                   <motion.button
-                    className="px-6 py-3 bg-[--accent-color] text-white rounded-md hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl hover:translate-y-[-2px] flex items-center"
+                    className="px-6 py-3 bg-(--accent-color) text-white rounded-md hover:bg-(--accent-color)/90 transition-all shadow-lg hover:shadow-xl hover:translate-y-[-2px] flex items-center"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -603,7 +603,7 @@ function connect() {
                 </Link>
                 <Link href={secondaryCtaLink || "#"}>
                   <motion.button
-                    className="px-6 py-3 border border-[--accent-color] text-[--accent-color] rounded-md hover:bg-[--accent-color] hover:bg-opacity-10 transition-all"
+                    className="px-6 py-3 border border-(--accent-color) text-(--accent-color) rounded-md hover:bg-(--accent-color)/10 transition-all"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -623,7 +623,7 @@ function connect() {
                   href="https://github.com/shafayet9780"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[--text-color] opacity-70 hover:opacity-100 transition-opacity"
+                  className="text-(--text-color) opacity-70 hover:opacity-100 transition-opacity"
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -641,7 +641,7 @@ function connect() {
                   href="https://www.linkedin.com/in/shafayet2368/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[--text-color] opacity-70 hover:opacity-100 transition-opacity"
+                  className="text-(--text-color) opacity-70 hover:opacity-100 transition-opacity"
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -659,7 +659,7 @@ function connect() {
                   href="https://x.com/shafayet2368"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[--text-color] opacity-70 hover:opacity-100 transition-opacity"
+                  className="text-(--text-color) opacity-70 hover:opacity-100 transition-opacity"
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -683,7 +683,7 @@ function connect() {
               {/* Glow effect with absolute positioning */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
-                  className="w-[140%] h-[140%] bg-gradient-to-r from-[--accent-color] to-purple-600 rounded-full blur-3xl opacity-15 pointer-events-none"
+                  className="w-[140%] h-[140%] bg-gradient-to-r from-(--accent-color) to-purple-600 rounded-full blur-3xl opacity-15 pointer-events-none"
                   animate={{
                     scale: [1, 1.1, 1],
                     opacity: [0.15, 0.25, 0.15],
@@ -704,9 +704,9 @@ function connect() {
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
                 {isClient ? (
-                  <Illustration className="w-full max-w-lg text-[--accent-color]" />
+                  <Illustration className="w-full max-w-lg text-(--accent-color)" />
                 ) : (
-                  <div className="w-full max-w-lg h-80 bg-[--editor-bg] rounded-lg opacity-30"></div>
+                  <div className="w-full max-w-lg h-80 bg-(--editor-bg) rounded-lg opacity-30"></div>
                 )}
               </motion.div>
             </div>
@@ -734,13 +734,13 @@ function connect() {
             viewport={{ once: true }}
           >
             <motion.div
-              className="h-1 w-12 bg-[--accent-color]"
+              className="h-1 w-12 bg-(--accent-color)"
               initial={{ width: 0 }}
               whileInView={{ width: 48 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             ></motion.div>
-            <span className="text-[--accent-color] font-mono tracking-wide">
+            <span className="text-(--accent-color) font-mono tracking-wide">
               Developer.introduce()
             </span>
           </motion.div>
@@ -774,19 +774,19 @@ function connect() {
         >
           <div className="flex space-x-3 items-center mb-6">
             <motion.div
-              className="h-1 w-12 bg-[--accent-color]"
+              className="h-1 w-12 bg-(--accent-color)"
               initial={{ width: 0 }}
               whileInView={{ width: 48 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             ></motion.div>
-            <span className="text-[--accent-color] font-mono tracking-wide">
+            <span className="text-(--accent-color) font-mono tracking-wide">
               Featured Works
             </span>
           </div>
 
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-[--text-color]"
+            className="text-3xl md:text-4xl font-bold text-(--text-color)"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -795,7 +795,7 @@ function connect() {
             Recent Projects
           </motion.h2>
           <motion.p
-            className="text-[--text-color] opacity-70 mt-4 max-w-2xl"
+            className="text-(--text-color) opacity-70 mt-4 max-w-2xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 0.7, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -824,7 +824,7 @@ function connect() {
         >
           <Link href="/projects">
             <motion.button
-              className="px-6 py-3 border border-[--accent-color] text-[--accent-color] rounded-md hover:bg-[--accent-color] hover:bg-opacity-10 transition-all inline-flex items-center"
+              className="px-6 py-3 border border-(--accent-color) text-(--accent-color) rounded-md hover:bg-(--accent-color)/10 transition-all inline-flex items-center"
               whileHover={{ scale: 1.05, x: 5 }}
               whileTap={{ scale: 0.98 }}
             >

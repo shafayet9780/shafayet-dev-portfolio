@@ -105,7 +105,7 @@ export default async function GitHubPage() {
     <div className="py-4">
       <h1 className="text-4xl font-bold mb-8">GitHub</h1>
       
-      <div className="bg-[--article-bg] p-4 rounded-md flex flex-wrap items-center justify-between mb-8">
+      <div className="bg-(--article-bg) p-4 rounded-md flex flex-wrap items-center justify-between mb-8">
         <div className="flex items-center mb-4 md:mb-0">
           <Image
             src={user?.avatar_url || "/placeholder-avatar.png"}
@@ -129,13 +129,13 @@ export default async function GitHubPage() {
       {repos.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {repos.map((repo) => (
-            <div key={repo.id} className="bg-[--article-bg] p-4 rounded-md">
+            <div key={repo.id} className="bg-(--article-bg) p-4 rounded-md">
               <h3 className="text-xl font-semibold mb-2">
                 <a 
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[--accent-color] hover:underline"
+                  className="text-(--accent-color) hover:underline"
                 >
                   {repo.name}
                 </a>
@@ -157,7 +157,7 @@ export default async function GitHubPage() {
                   </span>
                 </div>
                 {repo.language && (
-                  <span className="text-sm px-2 py-1 bg-[--explorer-hover-bg] rounded-md">
+                  <span className="text-sm px-2 py-1 bg-(--explorer-hover-bg) rounded-md">
                     {repo.language}
                   </span>
                 )}
@@ -166,7 +166,7 @@ export default async function GitHubPage() {
           ))}
         </div>
       ) : (
-        <div className="bg-[--article-bg] p-6 rounded-md text-center">
+        <div className="bg-(--article-bg) p-6 rounded-md text-center">
           <p>No repositories found or GitHub API rate limit exceeded.</p>
           <p className="mt-2 text-sm opacity-80">
             Try again later or make sure your GitHub username and token are correctly configured.
