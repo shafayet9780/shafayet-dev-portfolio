@@ -12,33 +12,33 @@ interface Theme {
 }
 
 export default function SettingsPage() {
-  const [activeTheme, setActiveTheme] = useState<string>("github-dark");
+  const [activeTheme, setActiveTheme] = useState<string>("");
   
   const themes: Theme[] = [
     {
       name: "GitHub Dark",
-      icon: "/themes/github-dark.png",
+      icon: "/github-dark.png",
       publisher: "GitHub",
-      theme: "github-dark",
+      theme: "",
       description: "GitHub theme for VS Code"
     },
     {
       name: "Dracula",
-      icon: "/themes/dracula.png",
+      icon: "/dracula.png",
       publisher: "Dracula Theme",
       theme: "dracula",
       description: "Official Dracula Theme. A dark theme for many editors, shells, and more."
     },
     {
       name: "Nord",
-      icon: "/themes/nord.png",
+      icon: "/nord.png",
       publisher: "Arctic Ice Studio",
       theme: "nord",
       description: "An arctic, north-bluish clean and elegant Visual Studio Code theme."
     },
     {
       name: "Night Owl",
-      icon: "/themes/night-owl.png",
+      icon: "/night-owl.png",
       publisher: "Sarah Drasner",
       theme: "night-owl",
       description: "A VS Code theme for the night owls out there."
@@ -54,9 +54,14 @@ export default function SettingsPage() {
   }, []);
   
   const setTheme = (theme: string) => {
-    document.documentElement.setAttribute("data-theme", theme);
+    if (theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
     localStorage.setItem("theme", theme);
     setActiveTheme(theme);
+    window.dispatchEvent(new Event("portfolio:theme-change"));
   };
 
   return (
@@ -77,6 +82,7 @@ export default function SettingsPage() {
                 src={theme.icon} 
                 alt={theme.name}
                 fill
+                sizes="96px"
                 className="object-contain"
               />
             </div>

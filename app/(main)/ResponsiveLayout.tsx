@@ -1,17 +1,28 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import Sidebar from "../components/Sidebar";
 import Explorer from "../components/Explorer";
 import Tabsbar from "../components/Tabsbar";
 import Bottombar from "../components/Bottombar";
 import ThemeSwitcher from "../components/ThemeSwitcher";
+import { CommandPalette } from "../components/layout/CommandPalette";
+import { ContextCommandPanel } from "../components/layout/ContextCommandPanel";
+import { AnimatePresence } from "motion/react";
+
+interface ContextPanelPosition {
+  x: number;
+  y: number;
+}
 
 // This is a client component - it cannot directly include server components that use async/await
 export default function ResponsiveLayout({ children }: { children: React.ReactNode }) {
   const [isPanelsVisible, setIsPanelsVisible] = useState(true);
   const [isMobileView, setIsMobileView] = useState(false);
   const [isBottombarVisible, setIsBottombarVisible] = useState(true);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [contextPanelPosition, setContextPanelPosition] =
+    useState<ContextPanelPosition | null>(null);
   const lastScrollY = useRef(0);
   const mainRef = useRef<HTMLElement>(null);
 
@@ -35,12 +46,56 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const openCommandPalette = () => {
+      setContextPanelPosition(null);
+      setIsCommandPaletteOpen(true);
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        openCommandPalette();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("portfolio:open-command-center", openCommandPalette);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("portfolio:open-command-center", openCommandPalette);
+    };
+  }, []);
+
+  const openCommandPalette = useCallback(() => {
+    setContextPanelPosition(null);
+    setIsCommandPaletteOpen(true);
+  }, []);
+
+  const handleContextMenu = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    setIsCommandPaletteOpen(false);
+
+    const panelWidth = 420;
+    const panelHeight = 330;
+    const gutter = 12;
+    const x = Math.min(event.clientX, window.innerWidth - panelWidth - gutter);
+    const y = Math.min(event.clientY, window.innerHeight - panelHeight - gutter);
+
+    setContextPanelPosition({
+      x: Math.max(gutter, x),
+      y: Math.max(gutter, y),
+    });
+  };
+
   // Scroll behavior for bottombar
   useEffect(() => {
     const mainElement = mainRef.current;
     if (!mainElement) return;
 
     const handleScroll = () => {
+      setContextPanelPosition(null);
       const scrollY = mainElement.scrollTop;
       const isScrollingDown = scrollY > lastScrollY.current && scrollY > 50;
       const isScrollingUp = scrollY < lastScrollY.current;
@@ -64,6 +119,20 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
 
   return (
     <div className="flex h-full w-full relative bg-(--main-bg) text-(--text-color)">
+      <AnimatePresence>
+        {isCommandPaletteOpen && (
+          <CommandPalette onClose={() => setIsCommandPaletteOpen(false)} />
+        )}
+        {contextPanelPosition && (
+          <ContextCommandPanel
+            x={contextPanelPosition.x}
+            y={contextPanelPosition.y}
+            onClose={() => setContextPanelPosition(null)}
+            onOpenCommandPalette={openCommandPalette}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar - toggleable visibility */}
       {(isPanelsVisible || !isMobileView) && (
         <div className={`${isMobileView ? 'absolute' : 'relative'} z-40 h-full`}>
@@ -127,6 +196,7 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
         {/* Content - scrollable */}
         <main 
           ref={mainRef} 
+          onContextMenu={handleContextMenu}
           className="flex-1 overflow-auto bg-(--main-bg) text-(--text-color) p-4 md:p-8 scroll-smooth"
         >
           <div className="max-w-full">

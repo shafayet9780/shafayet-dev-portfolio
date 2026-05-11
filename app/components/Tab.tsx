@@ -1,31 +1,48 @@
 "use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import Image from "next/image";
+import Link from "next/link";
 
 interface TabProps {
   icon: string;
   filename: string;
   path: string;
+  isActive: boolean;
+  isDirty?: boolean;
 }
 
-export default function Tab({ icon, filename, path }: TabProps) {
-  const pathname = usePathname();
-  const isActive = pathname === path;
-
+export default function Tab({
+  icon,
+  filename,
+  path,
+  isActive,
+  isDirty = false,
+}: TabProps) {
   return (
-    <Link href={path}>
+    <Link href={path} className="shrink-0">
       <div
-        className={`h-[40px] px-4 flex items-center text-sm cursor-pointer transition-colors duration-200
-          ${isActive 
-            ? 'bg-(--tab-active-bg) text-(--text-color) border-t border-r border-(--tab-border)' 
-            : 'bg-(--tab-bg) text-[#6A737D] hover:text-(--text-color)'
-          }`}
+        className={`group flex h-[40px] min-w-0 items-center border-r border-(--explorer-border) px-3 text-sm transition-colors duration-200 ${
+          isActive
+            ? "border-t border-t-[var(--accent-color)] bg-(--tab-active-bg) text-(--text-color)"
+            : "bg-(--tab-bg) text-(--text-color) opacity-[0.58] hover:bg-(--explorer-hover-bg) hover:opacity-95"
+        }`}
       >
-        <Image src={icon} alt={filename} height={18} width={18} className="mr-1" />
-        <p>{filename}</p>
+        <Image
+          src={icon}
+          alt=""
+          height={17}
+          width={17}
+          className="mr-2 shrink-0"
+        />
+        <span className="max-w-[150px] truncate">{filename}</span>
+        <span
+          className={`ml-3 h-2 w-2 rounded-full transition-colors ${
+            isDirty
+              ? "bg-(--accent-color)"
+              : "border border-(--text-color) opacity-0 group-hover:opacity-30"
+          }`}
+        />
       </div>
     </Link>
   );
-} 
+}

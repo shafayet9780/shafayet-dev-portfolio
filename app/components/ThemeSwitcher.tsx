@@ -33,6 +33,7 @@ export default function ThemeSwitcher() {
     }
     localStorage.setItem('theme', themeId);
     setCurrentTheme(themeId);
+    window.dispatchEvent(new Event('portfolio:theme-change'));
     setIsOpen(false);
   };
   

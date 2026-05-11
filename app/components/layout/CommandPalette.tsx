@@ -1,6 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useRouter } from 'next/navigation';
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "motion/react";
+import { usePathname, useRouter } from "next/navigation";
+import { workspaceItems } from "../workspaceNavigation";
 
 interface CommandPaletteProps {
   onClose: () => void;
@@ -8,65 +11,86 @@ interface CommandPaletteProps {
 
 interface Command {
   label: string;
-  href: string;
+  href?: string;
   description: string;
+  action?: () => void;
 }
 
-const commands: Command[] = [
-  {
-    label: 'Go to Home',
-    href: '/',
-    description: 'Navigate to the home page',
-  },
-  {
-    label: 'Go to Projects',
-    href: '/projects',
-    description: 'View all projects',
-  },
-  {
-    label: 'Go to About',
-    href: '/about',
-    description: 'Learn more about me',
-  },
-  {
-    label: 'Go to Contact',
-    href: '/contact',
-    description: 'Get in touch',
-  },
-];
-
 export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
+  const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const filteredCommands = commands.filter((command) =>
-    command.label.toLowerCase().includes(search.toLowerCase())
+  const commands = useMemo<Command[]>(
+    () => [
+      ...workspaceItems.map((item) => ({
+        label: `Go to ${item.label}`,
+        href: item.path,
+        description: item.description,
+      })),
+      {
+        label: "Open capability matrix",
+        description: "Leadership, architecture, DevOps, and product engineering",
+        action: () => router.push("/#capabilities"),
+      },
+      {
+        label: "Open project case studies",
+        href: "/projects",
+        description: "Jump to engineering work and case-study proof",
+      },
+      {
+        label: "Copy contact path",
+        href: "/contact",
+        description: "Open the contact workspace",
+      },
+    ],
+    [router]
   );
+
+  const filteredCommands = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+    if (!normalizedSearch) return commands;
+
+    return commands.filter((command) =>
+      `${command.label} ${command.description}`
+        .toLowerCase()
+        .includes(normalizedSearch)
+    );
+  }, [commands, search]);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setSelectedIndex((prev) =>
-        prev < filteredCommands.length - 1 ? prev + 1 : prev
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [search]);
+
+  const runCommand = (command: Command) => {
+    command.action?.();
+    if (command.href) {
+      router.push(command.href);
+    }
+    onClose();
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setSelectedIndex((current) =>
+        Math.min(current + 1, filteredCommands.length - 1)
       );
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      const selectedCommand = filteredCommands[selectedIndex];
-      if (selectedCommand) {
-        router.push(selectedCommand.href);
-        onClose();
-      }
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setSelectedIndex((current) => Math.max(current - 1, 0));
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      const command = filteredCommands[selectedIndex];
+      if (command) runCommand(command);
+    } else if (event.key === "Escape") {
+      event.preventDefault();
       onClose();
     }
   };
@@ -76,54 +100,67 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 flex items-start justify-center pt-[20vh] px-4 z-50"
-      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/55 px-4 pt-[12vh] backdrop-blur-sm"
+      onMouseDown={onClose}
     >
       <motion.div
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
-        className="w-full max-w-2xl bg-[#252526] rounded-lg shadow-xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
+        initial={{ scale: 0.97, opacity: 0, y: -10 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.97, opacity: 0, y: -10 }}
+        transition={{ duration: 0.18 }}
+        className="w-full max-w-3xl overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl"
+        onMouseDown={(event) => event.stopPropagation()}
       >
-        <div className="p-4 border-b border-[#333333]">
+        <div className="border-b border-(--explorer-border) bg-(--titlebar-bg)/80 p-3">
+          <div className="mb-2 flex items-center justify-between px-1 font-mono text-[11px] text-(--text-color) opacity-50">
+            <span>command.center</span>
+            <span>{pathname}</span>
+          </div>
           <input
             ref={inputRef}
             type="text"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(event) => setSearch(event.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type a command or search..."
-            className="w-full bg-[#3c3c3c] text-white px-4 py-2 rounded-md focus:outline-hidden focus:ring-2 focus:ring-[#007acc]"
+            placeholder="Type a command or search the workspace..."
+            className="w-full rounded-md border border-(--explorer-border) bg-(--main-bg) px-4 py-3 font-mono text-sm text-(--text-color) outline-hidden placeholder:text-[rgba(var(--text-rgb),0.35)]"
           />
         </div>
 
-        <div className="max-h-96 overflow-y-auto">
+        <div className="max-h-[440px] overflow-y-auto p-2">
           {filteredCommands.map((command, index) => (
-            <motion.button
-              key={command.href}
-              className={`w-full px-4 py-3 text-left hover:bg-[#2a2d2e] transition-colors ${
-                index === selectedIndex ? 'bg-[#37373d]' : ''
+            <button
+              key={`${command.label}-${command.href || index}`}
+              className={`w-full rounded-md px-4 py-3 text-left transition-colors ${
+                index === selectedIndex
+                  ? "bg-(--explorer-hover-bg)"
+                  : "hover:bg-(--explorer-hover-bg)"
               }`}
-              onClick={() => {
-                router.push(command.href);
-                onClose();
-              }}
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+              onMouseEnter={() => setSelectedIndex(index)}
+              onClick={() => runCommand(command)}
             >
-              <div className="text-white font-medium">{command.label}</div>
-              <div className="text-sm text-[#cccccc]">{command.description}</div>
-            </motion.button>
+              <div className="font-mono text-sm text-(--text-color)">
+                {command.label}
+              </div>
+              <div className="mt-1 text-xs text-(--text-color) opacity-55">
+                {command.description}
+              </div>
+            </button>
           ))}
 
           {filteredCommands.length === 0 && (
-            <div className="px-4 py-3 text-[#cccccc]">
-              No commands found
+            <div className="px-4 py-6 text-sm text-(--text-color) opacity-60">
+              No commands found.
             </div>
           )}
+        </div>
+
+        <div className="flex items-center justify-between border-t border-(--explorer-border) px-4 py-2 font-mono text-[11px] text-(--text-color) opacity-45">
+          <span>↑↓ navigate</span>
+          <span>enter run</span>
+          <span>esc close</span>
         </div>
       </motion.div>
     </motion.div>
   );
-}; 
+};

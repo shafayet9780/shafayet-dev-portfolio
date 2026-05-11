@@ -32,6 +32,71 @@ export const projectType = defineType({
       validation: (Rule) => Rule.required().max(200),
     }),
     defineField({
+      name: 'role',
+      title: 'Role',
+      type: 'string',
+      description: 'Your role in the project, e.g. Product Engineer, Full Stack Developer',
+    }),
+    defineField({
+      name: 'problem',
+      title: 'Problem',
+      type: 'text',
+      rows: 3,
+      description: 'What the project needed to solve',
+    }),
+    defineField({
+      name: 'approach',
+      title: 'Approach',
+      type: 'text',
+      rows: 4,
+      description: 'How you shaped the technical and product solution',
+    }),
+    defineField({
+      name: 'outcome',
+      title: 'Outcome',
+      type: 'text',
+      rows: 3,
+      description: 'The result, impact, or most important learning',
+    }),
+    defineField({
+      name: 'highlights',
+      title: 'Highlights',
+      type: 'array',
+      of: [defineArrayMember({ type: 'string' })],
+      description: 'Short proof points shown in the case study',
+    }),
+    defineField({
+      name: 'process',
+      title: 'Process',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Title',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+              rows: 3,
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'description',
+            },
+          },
+        }),
+      ],
+      description: 'Project-specific process steps',
+    }),
+    defineField({
       name: 'mainImage',
       title: 'Main Image',
       type: 'image',

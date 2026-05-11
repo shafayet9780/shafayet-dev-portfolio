@@ -116,6 +116,65 @@ main > * {
   }
 }
 
+.workstation-grid {
+  background-image:
+    linear-gradient(rgba(var(--text-rgb), 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--text-rgb), 0.055) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at 50% 38%, black 0%, transparent 78%);
+}
+
+.project-portable {
+  color: var(--text-color);
+}
+
+.project-portable h1,
+.project-portable h2,
+.project-portable h3,
+.project-portable h4 {
+  margin-top: 1.6rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.project-portable h1 {
+  font-size: 2.25rem;
+}
+
+.project-portable h2 {
+  font-size: 1.75rem;
+}
+
+.project-portable h3 {
+  font-size: 1.35rem;
+}
+
+.project-portable p,
+.project-portable li {
+  color: rgba(var(--text-rgb), 0.72);
+  line-height: 1.8;
+}
+
+.project-portable ul {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.project-portable blockquote {
+  margin: 1.25rem 0;
+  border-left: 3px solid var(--accent-color);
+  padding-left: 1rem;
+  color: rgba(var(--text-rgb), 0.78);
+}
+
+.project-portable a {
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* Improved focus styles */
 *:focus-visible {
   outline: 2px solid var(--accent-color);

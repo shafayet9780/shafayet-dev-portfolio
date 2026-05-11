@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { urlFor } from "@/studio/lib/image";
+import type { SVGProps } from "react";
 
-// Icon components
-const EyeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const EyeIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="16"
     height="16"
@@ -29,7 +28,7 @@ const EyeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const HeartIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const HeartIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="16"
     height="16"
@@ -48,7 +47,7 @@ const HeartIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const CommentIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const CommentIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="16"
     height="16"
@@ -69,12 +68,12 @@ const CommentIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 interface ArticleCardProps {
   article: {
-    _id: string;
     title: string;
     excerpt: string;
+    publishedAt?: string;
+    categories?: string[];
     mainImage?: {
       asset?: {
-        _id: string;
         url: string;
       };
       alt?: string;
@@ -88,56 +87,101 @@ interface ArticleCardProps {
   };
 }
 
-export default function ArticleCard({ article }: ArticleCardProps) {
-  // Check if the image exists and has the required asset
-  const hasValidImage =
-    article.mainImage && article.mainImage.asset && article.mainImage.asset._id;
+function formatDate(date?: string) {
+  if (!date) {
+    return "Draft note";
+  }
 
-  // Create image URL or use a placeholder
-  const imageUrl = hasValidImage 
-    ? urlFor(article.mainImage as any).width(300).height(150).url()
-    : '/placeholder-article.jpg';
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(date));
+}
+
+export default function ArticleCard({ article }: ArticleCardProps) {
+  const imageUrl = article.mainImage?.asset?.url;
+  const postHref = `/blog/${article.slug.current.replace(/^\/+/, "")}`;
+  const categories = article.categories?.length
+    ? article.categories
+    : ["Field Note"];
 
   return (
-    <Link
-      href={`/blog/${article.slug.current}`}
-      className="block bg-(--article-bg) rounded-md overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-    >
-      <div className="relative h-40">
-        {hasValidImage ? (
-          <Image
-            src={imageUrl}
-            alt={article.mainImage?.alt || article.title}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-800">
-            <span className="text-sm text-gray-400">No image available</span>
+    <article className="group relative overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-lg transition-colors hover:border-(--accent-color)">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-(--accent-color) to-transparent opacity-0 transition-opacity group-hover:opacity-70" />
+
+      <div className="grid gap-0 md:grid-cols-[220px_1fr]">
+        <Link href={postHref} className="block">
+          <div className="relative h-48 overflow-hidden bg-(--main-bg) md:h-full">
+            {imageUrl ? (
+              <Image
+                src={imageUrl}
+                alt={article.mainImage?.alt || article.title}
+                fill
+                sizes="(min-width: 1280px) 18vw, (min-width: 768px) 28vw, 100vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              />
+            ) : (
+              <div className="flex h-full min-h-48 items-center justify-center bg-(--main-bg)">
+                <span className="font-mono text-sm text-(--text-color) opacity-40">
+                  note.preview
+                </span>
+              </div>
+            )}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-(--main-bg)/65 via-transparent to-transparent" />
           </div>
-        )}
-      </div>
-      <div className="p-4">
-        <h3 className="text-xl font-bold mb-2">{article.title}</h3>
-        <p className="text-sm opacity-80 mb-4">{article.excerpt}</p>
-        <div className="flex items-center text-xs text-[#6A737D]">
-          {article.viewCount !== undefined && (
-            <div className="flex items-center mr-4">
-              <EyeIcon className="mr-1" /> {article.viewCount}
-            </div>
-          )}
-          {article.likeCount !== undefined && (
-            <div className="flex items-center mr-4">
-              <HeartIcon className="mr-1" /> {article.likeCount}
-            </div>
-          )}
-          {article.commentCount !== undefined && (
-            <div className="flex items-center">
-              <CommentIcon className="mr-1" /> {article.commentCount}
-            </div>
-          )}
+        </Link>
+
+        <div className="p-5">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-(--explorer-border) px-2 py-1 font-mono text-[11px] text-(--text-color) opacity-65">
+              {formatDate(article.publishedAt)}
+            </span>
+            {categories.slice(0, 3).map((category) => (
+              <span
+                key={category}
+                className="rounded-full border border-(--explorer-border) px-2 py-1 font-mono text-[11px] text-(--text-color) opacity-65"
+              >
+                {category}
+              </span>
+            ))}
+          </div>
+
+          <Link href={postHref}>
+            <h3 className="text-2xl font-bold leading-tight text-(--text-color) transition-colors hover:text-(--accent-color)">
+              {article.title}
+            </h3>
+          </Link>
+
+          <p className="mt-3 line-clamp-3 text-sm leading-6 text-(--text-color) opacity-70">
+            {article.excerpt}
+          </p>
+
+          <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-(--explorer-border) pt-4">
+            <Link
+              href={postHref}
+              className="font-mono text-xs text-(--accent-color) hover:underline"
+            >
+              read note
+            </Link>
+            {article.viewCount !== undefined && (
+              <span className="flex items-center gap-1 font-mono text-xs text-(--text-color) opacity-50">
+                <EyeIcon /> {article.viewCount}
+              </span>
+            )}
+            {article.likeCount !== undefined && (
+              <span className="flex items-center gap-1 font-mono text-xs text-(--text-color) opacity-50">
+                <HeartIcon /> {article.likeCount}
+              </span>
+            )}
+            {article.commentCount !== undefined && (
+              <span className="flex items-center gap-1 font-mono text-xs text-(--text-color) opacity-50">
+                <CommentIcon /> {article.commentCount}
+              </span>
+            )}
+          </div>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }

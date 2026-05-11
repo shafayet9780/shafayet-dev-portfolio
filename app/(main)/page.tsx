@@ -22,19 +22,9 @@ export default async function Page() {
     `*[_type == "project"] | order(_createdAt desc)[0...3] {
       title,
       slug,
-      description,
+      "description": coalesce(description, excerpt),
       "imageUrl": mainImage.asset->url,
-      tags
-    }`
-  );
-  
-  const posts = await client.fetch(
-    `*[_type == "post"] | order(_createdAt desc)[0...2] {
-      title,
-      slug,
-      excerpt,
-      "imageUrl": mainImage.asset->url,
-      publishedAt
+      "tags": categories[]->title
     }`
   );
   
@@ -43,7 +33,6 @@ export default async function Page() {
     <HomePage 
       siteSettings={siteSettings}
       projects={projects}
-      posts={posts}
     />
   );
 }

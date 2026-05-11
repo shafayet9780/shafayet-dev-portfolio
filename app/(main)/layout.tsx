@@ -13,10 +13,18 @@ export async function generateMetadata(): Promise<Metadata> {
       mainName
     }
   `);
+  const legacyDescription =
+    "Portfolio of Shafayet Ahmmed, a creative full-stack developer and DevOps engineer.";
+  const description = settings?.description?.trim();
 
   return {
-    title: settings?.title || "Shafayet Ahmmed | Full Stack Developer",
-    description: settings?.description || "Portfolio of Shafayet Ahmmed, a passionate Full Stack Developer",
+    title:
+      settings?.title?.trim() ||
+      "Shafayet Ahmmed | Engineering Leader & Full Stack Architect",
+    description:
+      description && description !== legacyDescription
+        ? description
+        : "Portfolio of Shafayet Ahmmed, an engineering leader, full stack architect, and DevOps specialist.",
   };
 }
 
