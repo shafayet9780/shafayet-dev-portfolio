@@ -4,6 +4,8 @@ import Titlebar from "../components/Titlebar";
 import ClientThemeProvider from "../components/ClientThemeProvider";
 import ResponsiveLayout from "@/app/(main)/ResponsiveLayout";
 
+export const revalidate = 120;
+
 export async function generateMetadata(): Promise<Metadata> {
   // Fetch site settings
   const settings = await client.fetch(`
@@ -40,12 +42,10 @@ export default function MainLayout({
         <div className="shrink-0">
           <Titlebar />
         </div>
-        
+
         {/* ResponsiveLayout is a client component */}
         <div className="flex-1 overflow-hidden">
-          <ResponsiveLayout>
-            {children}
-          </ResponsiveLayout>
+          <ResponsiveLayout>{children}</ResponsiveLayout>
         </div>
       </div>
     </ClientThemeProvider>
