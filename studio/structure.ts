@@ -1,5 +1,5 @@
 import type { StructureResolver } from 'sanity/structure'
-import { CogIcon, DocumentTextIcon, CodeIcon, UserIcon, TagIcon, LinkIcon } from '@sanity/icons'
+import { CogIcon, DocumentTextIcon, CodeIcon, UserIcon, LinkIcon } from '@sanity/icons'
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
@@ -25,6 +25,14 @@ export const structure: StructureResolver = (S) =>
         .child(
           S.documentTypeList('project')
             .title('Projects')
+        ),
+
+      S.listItem()
+        .title('Experience')
+        .icon(UserIcon)
+        .child(
+          S.documentTypeList('experience')
+            .title('Experience')
         ),
       
       S.listItem()

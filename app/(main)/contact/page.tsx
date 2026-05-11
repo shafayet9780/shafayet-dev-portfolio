@@ -5,15 +5,15 @@ import { client } from "@/studio/lib/client";
 const collaborationFit = [
   {
     title: "Leadership",
-    body: "Engineering leadership, tech lead, or team execution opportunities.",
+    body: "Team direction, review culture, and delivery clarity.",
   },
   {
     title: "Architecture",
-    body: "System direction, maintainability decisions, and complex product boundaries.",
+    body: "System direction, tradeoffs, and maintainable boundaries.",
   },
   {
     title: "Reliability",
-    body: "DevOps maturity, CI/CD, deployment flow, and delivery-risk reduction.",
+    body: "CI/CD, release flow, and delivery-risk reduction.",
   },
 ];
 
@@ -43,12 +43,11 @@ export default async function ContactPage() {
             senior-handoff/contact.route
           </p>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] tracking-normal text-(--text-color) sm:text-6xl">
-            Bring the architecture question, delivery risk, or team execution gap.
+            Bring the hard technical question.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-(--text-color) opacity-70">
-            Reach out when the work needs senior technical judgment: systems
-            architecture, DevOps reliability, full stack delivery, or leadership
-            that helps a team move with more clarity.
+            Reach out when architecture, reliability, or team execution needs
+            clearer direction.
           </p>
         </div>
 
@@ -60,7 +59,7 @@ export default async function ContactPage() {
           collaboration.fit
         </p>
         <h2 className="mt-3 text-2xl font-bold text-(--text-color)">
-          Useful conversations to start here.
+          Useful conversations start here.
         </h2>
         <div className="mt-5 grid gap-3 md:grid-cols-3">
           {collaborationFit.map((item, index) => (
@@ -95,16 +94,16 @@ export default async function ContactPage() {
         <div className="grid gap-0 lg:grid-cols-[280px_1fr]">
           <div className="border-b border-(--explorer-border) bg-(--main-bg)/55 p-5 lg:border-b-0 lg:border-r">
             <p className="font-mono text-xs text-(--text-color) opacity-45">
-              Include these and I can respond with sharper technical next steps.
+              Send enough context for sharper next steps.
             </p>
           </div>
           <div className="space-y-3 p-5 font-mono text-sm leading-7 text-(--text-color) opacity-75">
             <p>subject: Leadership / architecture / DevOps conversation</p>
-            <p>context: What system, team, or delivery problem exists?</p>
-            <p>pressure: What is risky, blocked, unclear, or expensive?</p>
-            <p>goal: What should be true after the engagement?</p>
-            <p>timeline: When does a decision or delivery matter?</p>
-            <p>links: Product, repo, architecture notes, incident, or roadmap</p>
+            <p>context: system, team, or delivery problem</p>
+            <p>pressure: risk, blocker, unclear decision, or cost</p>
+            <p>goal: what should be true next</p>
+            <p>timeline: when the decision matters</p>
+            <p>links: repo, notes, incident, roadmap, or product</p>
           </div>
         </div>
       </section>

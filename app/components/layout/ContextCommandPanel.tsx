@@ -26,20 +26,17 @@ function getPageActions(pathname: string): ContextAction[] {
       {
         label: "Open capability matrix",
         href: "/#capabilities",
-        description:
-          "Jump to leadership, architecture, DevOps, and product engineering strengths.",
+        description: "Open applied leadership, architecture, and reliability.",
       },
       {
         label: "View case studies",
         href: "/projects",
-        description:
-          "Open the selected engineering work framed around decisions and outcomes.",
+        description: "Read decisions, tradeoffs, and outcomes.",
       },
       {
         label: "Start a conversation",
         href: "/contact",
-        description:
-          "Move from the command center into a focused collaboration handoff.",
+        description: "Open a focused technical handoff.",
       },
     ];
   }
@@ -50,19 +47,19 @@ function getPageActions(pathname: string): ContextAction[] {
         label: "Back to case studies",
         href: "/projects",
         description:
-          "Return to the full case-study index without losing the workspace context.",
+          "Return to the case-study index.",
       },
       {
         label: "Open GitHub signals",
         href: "/github",
         description:
-          "Pair this case-study narrative with activity and repository signals.",
+          "Pair this case study with repository signals.",
       },
       {
         label: "Discuss this work",
         href: "/contact",
         description:
-          "Open a conversation around architecture, delivery, or technical leadership.",
+          "Discuss architecture, delivery, or leadership.",
       },
     ];
   }
@@ -73,19 +70,19 @@ function getPageActions(pathname: string): ContextAction[] {
         label: "Read case studies",
         href: "/projects",
         description:
-          "Stay inside the curated work surface and inspect engineering evidence.",
+          "Inspect engineering evidence.",
       },
       {
         label: "View GitHub signals",
         href: "/github",
         description:
-          "Open activity, repository signals, and public engineering habits.",
+          "Open activity and repository signals.",
       },
       {
         label: "Start architecture conversation",
         href: "/contact",
         description:
-          "Move from proof of work into a focused leadership or systems discussion.",
+          "Open a leadership or systems discussion.",
       },
     ];
   }
@@ -97,19 +94,19 @@ function getPageActions(pathname: string): ContextAction[] {
         href: "https://github.com/shafayet9780",
         external: true,
         description:
-          "Open the source profile behind the activity matrix and repository signals.",
+          "Open the source profile.",
       },
       {
         label: "View case studies",
         href: "/projects",
         description:
-          "Connect repository habits with the selected engineering case studies.",
+          "Connect repository habits to case studies.",
       },
       {
         label: "Start DevOps conversation",
         href: "/contact",
         description:
-          "Discuss reliability, automation, release confidence, or platform maturity.",
+          "Discuss reliability or platform maturity.",
       },
     ];
   }
@@ -120,19 +117,19 @@ function getPageActions(pathname: string): ContextAction[] {
         label: "Open technical notes",
         href: "/blog",
         description:
-          "Browse field notes on architecture, DevOps, delivery, and leadership.",
+          "Browse architecture and delivery notes.",
       },
       {
         label: "View case studies",
         href: "/projects",
         description:
-          "Pair written thinking with concrete engineering work and outcomes.",
+          "Pair writing with engineering outcomes.",
       },
       {
         label: "Start a conversation",
         href: "/contact",
         description:
-          "Turn a technical note into a deeper architecture or leadership discussion.",
+          "Start a deeper technical discussion.",
       },
     ];
   }
@@ -143,19 +140,19 @@ function getPageActions(pathname: string): ContextAction[] {
         label: "View case studies",
         href: "/projects",
         description:
-          "Move from leadership profile into proof of engineering judgment.",
+          "Move from profile to proof.",
       },
       {
         label: "Open GitHub signals",
         href: "/github",
         description:
-          "Inspect consistency, public work, and repository maintenance habits.",
+          "Inspect public work and maintenance habits.",
       },
       {
         label: "Start a leadership conversation",
         href: "/contact",
         description:
-          "Open a handoff for team direction, architecture, or delivery clarity.",
+          "Open a leadership handoff.",
       },
     ];
   }
@@ -166,19 +163,19 @@ function getPageActions(pathname: string): ContextAction[] {
         label: "View case studies first",
         href: "/projects",
         description:
-          "Review engineering evidence before starting a collaboration thread.",
+          "Review proof before contact.",
       },
       {
         label: "Open leadership profile",
         href: "/about",
         description:
-          "Read the operating style and technical leadership positioning.",
+          "Read the operating style.",
       },
       {
         label: "Open GitHub signals",
         href: "/github",
         description:
-          "Check activity, repository signal, and public engineering habits.",
+          "Check activity and repository signal.",
       },
     ];
   }
@@ -188,17 +185,17 @@ function getPageActions(pathname: string): ContextAction[] {
       label: "Open home command center",
       href: "/",
       description:
-        "Return to the senior engineering command center and architecture brief.",
+        "Return to the command center.",
     },
     {
       label: "View case studies",
       href: "/projects",
-      description: "Open selected engineering work and outcome-focused proof.",
+      description: "Open decisions and outcomes.",
     },
     {
       label: "Start a conversation",
       href: "/contact",
-      description: "Open the focused collaboration handoff.",
+      description: "Open the collaboration handoff.",
     },
   ];
 }
@@ -221,16 +218,20 @@ export function ContextCommandPanel({
       ...getPageActions(pathname),
       {
         label: "Open command center",
-        description:
-          "Search the full workspace with keyboard-first command palette controls.",
+        description: "Search the workspace.",
         run: onOpenCommandPalette,
       },
       {
         label: "Copy current path",
-        description: "Copy this workspace route for quick sharing.",
+        description: "Copy this route.",
         run: async () => {
-          await navigator.clipboard.writeText(window.location.href);
-          setStatus("path.copied");
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            setStatus("path.copied");
+          } catch {
+            window.prompt("Copy manually:", window.location.href);
+            setStatus("copy.denied");
+          }
         },
       },
     ],

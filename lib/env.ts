@@ -5,9 +5,13 @@ export const apiVersion =
 
 export const dataset = assertValue(
   isDevelopment
-    ? process.env.NEXT_PUBLIC_SANITY_DATASET_DEVELOPMENT
-    : process.env.NEXT_PUBLIC_SANITY_DATASET_PRODUCTION,
-  "Missing environment variable: NEXT_PUBLIC_SANITY_DATASET"
+    ? process.env.NEXT_PUBLIC_SANITY_DATASET_DEVELOPMENT ||
+        process.env.NEXT_PUBLIC_SANITY_DATASET
+    : process.env.NEXT_PUBLIC_SANITY_DATASET_PRODUCTION ||
+        process.env.NEXT_PUBLIC_SANITY_DATASET,
+  isDevelopment
+    ? "Missing environment variable: NEXT_PUBLIC_SANITY_DATASET_DEVELOPMENT or NEXT_PUBLIC_SANITY_DATASET"
+    : "Missing environment variable: NEXT_PUBLIC_SANITY_DATASET_PRODUCTION or NEXT_PUBLIC_SANITY_DATASET"
 );
 
 export const projectId = assertValue(

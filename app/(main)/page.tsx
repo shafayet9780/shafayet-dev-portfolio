@@ -27,12 +27,29 @@ export default async function Page() {
       "tags": categories[]->title
     }`
   );
+
+  const experiences = await client.fetch(
+    `*[_type == "experience"] | order(startDate desc, orderRank asc)[0...3] {
+      _id,
+      companyName,
+      role,
+      startDate,
+      endDate,
+      isCurrent,
+      sectors,
+      products[] {
+        name,
+        sector
+      }
+    }`
+  );
   
   // Pass data to client component
   return (
     <HomePage 
       siteSettings={siteSettings}
       projects={projects}
+      experiences={experiences}
     />
   );
 }

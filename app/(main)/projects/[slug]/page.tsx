@@ -101,7 +101,7 @@ export async function generateMetadata({
     description:
       project.excerpt ||
       project.problem ||
-      "An engineering case study by Shafayet Ahmmed.",
+      "A focused engineering case study by Shafayet Ahmmed.",
   };
 }
 
@@ -131,7 +131,7 @@ function DetailBlock({
         </span>
       </div>
       <p className="mt-5 text-sm leading-7 text-(--text-color) opacity-70">
-        {body || "Add this proof point in Sanity to make the case study stronger."}
+        {body || "Add this proof point in Sanity when the evidence is ready."}
       </p>
     </section>
   );
@@ -192,8 +192,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     ? project.highlights
     : [
         project.role ? `Role: ${project.role}` : "Technical direction and implementation",
-        "Architecture and delivery decisions",
-        "Production-minded outcome",
+        "Architecture decisions",
+        "Production confidence",
       ];
 
   const process = project.process?.length
@@ -203,14 +203,14 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           _key: "frame",
           title: "Frame",
           description:
-            project.problem || "Clarified the risk, users, content, and delivery constraints.",
+            project.problem || "Clarified risk, users, constraints, and delivery pressure.",
         },
         {
           _key: "decide",
           title: "Decide",
           description:
             project.approach ||
-            "Chose architecture and implementation path that kept the system maintainable.",
+            "Chose a maintainable path through the technical tradeoffs.",
         },
         {
           _key: "ship",
@@ -250,7 +250,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
           <p className="mt-5 max-w-3xl text-lg leading-8 text-(--text-color) opacity-[0.72]">
             {project.excerpt ||
-              "An engineering case study from Shafayet's portfolio workspace."}
+              "A focused case study from Shafayet's engineering workspace."}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -348,14 +348,14 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </p>
               <p className="text-(--text-color) opacity-55">
                 {project.problem ||
-                  "Context and constraints are ready to be authored in Sanity."}
+                  "Context and constraints can be authored in Sanity."}
               </p>
               <p className="text-(--text-color) opacity-70">
                 <span className="text-(--accent-color)">$</span> verify --outcome
               </p>
               <p className="text-(--text-color) opacity-55">
                 {project.outcome ||
-                  "Outcome notes will make this case study more persuasive."}
+                  "Outcome notes can be added when evidence is ready."}
               </p>
             </div>
           </div>
@@ -395,8 +395,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </h2>
           </div>
           <p className="max-w-md text-sm leading-6 text-(--text-color) opacity-60">
-            A compact view of how the work moved from ambiguity to decisions,
-            delivery, and evidence.
+            How the work moved from ambiguity to direction, delivery, and
+            evidence.
           </p>
         </div>
 

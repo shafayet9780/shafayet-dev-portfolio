@@ -45,8 +45,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-(--main-bg)">
-              <span className="font-mono text-sm text-(--text-color) opacity-40">
-                preview.pending
+          <span className="font-mono text-sm text-(--text-color) opacity-40">
+                preview.ready
               </span>
             </div>
           )}
@@ -88,7 +88,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             href={projectHref}
             className="font-mono text-xs text-(--accent-color) hover:underline"
           >
-            read case study
+            read case
           </Link>
           {project.sourceCodeUrl && (
             <a

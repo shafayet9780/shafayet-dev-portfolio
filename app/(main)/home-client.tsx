@@ -23,26 +23,40 @@ interface Project {
   tags?: string[];
 }
 
+interface ExperienceTeaserItem {
+  _id: string;
+  companyName: string;
+  role: string;
+  startDate?: string;
+  endDate?: string;
+  isCurrent?: boolean;
+  sectors?: string[];
+  products?: {
+    name?: string;
+    sector?: string;
+  }[];
+}
+
 const capabilityAreas = [
   {
     title: "Technical Leadership",
-    body: "Team direction, delivery planning, code review culture, and execution clarity.",
-    uses: "Planning, mentoring, reviews, delivery rhythm",
+    body: "Turn ambiguity into direction, review culture, and delivery rhythm.",
+    uses: "Planning, reviews, mentoring",
   },
   {
     title: "System Architecture",
-    body: "Service boundaries, data modeling, scalability, maintainability, and tradeoff decisions.",
-    uses: "Node.js, APIs, data flow, system design",
+    body: "Shape boundaries, data flow, and tradeoffs before complexity spreads.",
+    uses: "APIs, data flow, system design",
   },
   {
     title: "DevOps & Reliability",
-    body: "CI/CD, deployment strategy, infrastructure thinking, monitoring, and release confidence.",
-    uses: "CI/CD, cloud platforms, automation, observability",
+    body: "Build release paths that reduce risk and raise production confidence.",
+    uses: "CI/CD, automation, observability",
   },
   {
     title: "Product Engineering",
-    body: "Full stack delivery, frontend systems, CMS architecture, and UX-minded implementation.",
-    uses: "Next.js, React, TypeScript, Sanity",
+    body: "Connect product intent with maintainable frontend and content systems.",
+    uses: "Next.js, React, Sanity",
   },
 ];
 
@@ -115,7 +129,7 @@ function WorkstationVisual() {
                 # architecture-brief.md
               </p>
               <h2 className="mt-2 text-2xl font-bold text-(--text-color)">
-                Engineering command center
+                Senior engineering signal
               </h2>
             </div>
             <span className="w-fit rounded-md border border-(--accent-color) px-2 py-1 font-mono text-[10px] text-(--accent-color)">
@@ -129,7 +143,7 @@ function WorkstationVisual() {
                 Role
               </p>
               <p className="mt-2 text-sm leading-6 text-(--text-color) opacity-80">
-                Engineering leadership across product, platform, and delivery.
+                Leadership across product, platform, and delivery.
               </p>
             </div>
 
@@ -139,10 +153,10 @@ function WorkstationVisual() {
               </p>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {[
-                  "System architecture",
-                  "DevOps reliability",
-                  "Team execution",
-                  "Product engineering",
+                  "Architecture",
+                  "Reliability",
+                  "Team clarity",
+                  "Product delivery",
                 ].map((item) => (
                   <div
                     key={item}
@@ -156,9 +170,9 @@ function WorkstationVisual() {
 
             <div className="grid gap-3 border-t border-(--explorer-border) pt-4 sm:grid-cols-3">
               {[
-                ["mode", "clarity under complexity"],
+                ["mode", "clarity first"],
                 ["signal", "risk.reduced"],
-                ["outcome", "fewer surprises"],
+                ["outcome", "calmer delivery"],
               ].map(([label, value]) => (
                 <div key={label}>
                   <p className="font-mono text-[10px] uppercase text-(--accent-color)">
@@ -174,7 +188,7 @@ function WorkstationVisual() {
         </div>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          {["delivery.clear", "systems.scalable", "teams.aligned"].map(
+          {["delivery.clear", "systems.ready", "teams.aligned"].map(
             (signal) => (
               <span
                 key={signal}
@@ -245,6 +259,91 @@ function ProjectPreview({ project, index }: { project: Project; index: number })
   );
 }
 
+function getExperienceRange(experience: ExperienceTeaserItem) {
+  const start = experience.startDate?.slice(0, 4);
+  const end = experience.isCurrent
+    ? "Present"
+    : experience.endDate?.slice(0, 4);
+
+  return [start, end].filter(Boolean).join(" - ");
+}
+
+function ExperienceSignal({
+  experiences,
+}: {
+  experiences: ExperienceTeaserItem[];
+}) {
+  if (!experiences.length) return null;
+
+  const sectors = Array.from(
+    new Set(
+      experiences.flatMap((experience) => [
+        ...(experience.sectors || []),
+        ...(experience.products || []).map((product) => product.sector),
+      ])
+    )
+  ).filter(Boolean);
+
+  return (
+    <section className="relative py-10">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="font-mono text-xs text-(--accent-color)">
+            career.signal
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-(--text-color)">
+            Experience across products and sectors.
+          </h2>
+        </div>
+        <Link
+          href="/about#experience"
+          className="font-mono text-sm text-(--accent-color) hover:underline"
+        >
+          open timeline
+        </Link>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-[0.82fr_1fr]">
+        <div className="rounded-lg border border-(--explorer-border) bg-(--article-bg) p-5 shadow-xl">
+          <p className="font-mono text-xs text-(--accent-color)">
+            sectors.detected
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {sectors.slice(0, 8).map((sector) => (
+              <span
+                key={sector}
+                className="rounded-full border border-(--explorer-border) bg-(--main-bg)/55 px-3 py-1.5 font-mono text-[11px] text-(--text-color) opacity-70"
+              >
+                {sector}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-3">
+          {experiences.slice(0, 3).map((experience) => (
+            <Link
+              key={experience._id}
+              href="/about#experience"
+              className="rounded-lg border border-(--explorer-border) bg-(--article-bg) p-4 shadow-lg transition-colors hover:border-(--accent-color)"
+            >
+              <p className="font-mono text-[11px] text-(--accent-color)">
+                {getExperienceRange(experience)}
+              </p>
+              <h3 className="mt-2 text-base font-semibold text-(--text-color)">
+                {experience.companyName}
+              </h3>
+              <p className="mt-2 line-clamp-2 text-xs leading-5 text-(--text-color) opacity-65">
+                {experience.role}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HandoffPanel() {
   return (
     <section className="relative py-14">
@@ -257,9 +356,8 @@ function HandoffPanel() {
             Need senior technical direction?
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-(--text-color) opacity-70">
-            Bring the architecture question, delivery risk, team execution gap,
-            or product engineering challenge. I work best where systems,
-            people, and shipping pressure meet.
+            Bring the architecture question, delivery risk, or team execution
+            gap. I work best where systems and shipping pressure meet.
           </p>
         </div>
         <Link
@@ -276,9 +374,11 @@ function HandoffPanel() {
 export default function HomePage({
   siteSettings = {},
   projects = [],
+  experiences = [],
 }: {
   siteSettings?: SiteSettings;
   projects?: Project[];
+  experiences?: ExperienceTeaserItem[];
 }) {
   const mainName = siteSettings?.mainName || "Shafayet Ahmmed";
   const legacyJobTitles = ["Full Stack Developer & DevOps Engineer"];
@@ -310,7 +410,7 @@ export default function HomePage({
   const secondaryCtaLink = siteSettings?.secondaryCtaLink || "/contact";
   const bio =
     siteSettings?.bio ||
-    "I help teams design reliable systems, simplify complex architecture, and ship production software with clarity.";
+    "I help teams clarify architecture, reduce delivery risk, and ship reliable software.";
 
   const openCommandCenter = () => {
     window.dispatchEvent(new Event("portfolio:open-command-center"));
@@ -395,11 +495,10 @@ export default function HomePage({
             capability.matrix
           </p>
           <h2 className="mt-3 text-3xl font-bold text-(--text-color)">
-            Skills framed as applied engineering judgment.
+            Skills as applied judgment.
           </h2>
           <p className="mt-4 text-sm leading-7 text-(--text-color) opacity-68">
-            The stack matters, but the real value is knowing where it fits:
-            leadership, architecture, reliability, and product delivery.
+            Tools matter. Judgment decides where they fit.
           </p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -414,6 +513,8 @@ export default function HomePage({
           ))}
         </div>
       </section>
+
+      <ExperienceSignal experiences={experiences} />
 
       <section className="relative py-14">
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

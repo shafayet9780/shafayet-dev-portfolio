@@ -22,7 +22,11 @@ export default function ThemeSwitcher() {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || '';
     setCurrentTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
   }, []);
   
   const setTheme = (themeId: string) => {
@@ -32,6 +36,7 @@ export default function ThemeSwitcher() {
       document.documentElement.setAttribute('data-theme', themeId);
     }
     localStorage.setItem('theme', themeId);
+    localStorage.setItem('theme:user-set', 'true');
     setCurrentTheme(themeId);
     window.dispatchEvent(new Event('portfolio:theme-change'));
     setIsOpen(false);

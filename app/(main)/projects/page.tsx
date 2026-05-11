@@ -71,12 +71,11 @@ export default async function ProjectsPage() {
             case-studies/index
           </p>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] tracking-normal text-(--text-color) sm:text-6xl">
-            Engineering case studies, selected for decisions and outcomes.
+            Case studies with decisions exposed.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-(--text-color) opacity-70">
-            A lean set of work samples framed around context, constraints,
-            architecture choices, delivery judgment, and what changed after
-            shipping.
+            Work samples framed around context, tradeoffs, technical direction,
+            and what changed after shipping.
           </p>
         </div>
 
@@ -112,7 +111,7 @@ export default async function ProjectsPage() {
                 Mode
               </p>
               <p className="text-sm font-semibold text-(--text-color)">
-                Decisions over decoration
+                Decisions first
               </p>
             </div>
           </div>
@@ -178,7 +177,7 @@ export default async function ProjectsPage() {
                     Focus
                   </p>
                   <p className="text-sm text-(--text-color) opacity-75">
-                    Architecture, delivery, and production readiness
+                    Architecture and delivery readiness
                   </p>
                 </div>
               </div>
@@ -233,7 +232,7 @@ export default async function ProjectsPage() {
               no-projects.json
             </p>
             <p className="mt-3 text-sm text-(--text-color) opacity-70">
-              Add case studies in Sanity to populate this proof surface.
+              Add case studies in Sanity to publish this proof surface.
             </p>
           </div>
         )}

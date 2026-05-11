@@ -10,16 +10,20 @@ export default function ClientThemeProvider({
   // Set theme on client-side only after component is mounted
   useEffect(() => {
     try {
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = localStorage.getItem('theme');
+      let theme = localStorage.getItem('theme');
+      const userThemeSet = localStorage.getItem('theme:user-set');
       
-      if (theme === 'vs-light' || (!theme && !isDark)) {
-        document.documentElement.setAttribute('data-theme', 'vs-light');
-        if (!theme) localStorage.setItem('theme', 'vs-light');
-      } else if (theme) {
-        document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'vs-light' && !userThemeSet) {
+        localStorage.removeItem('theme');
+        theme = '';
       }
-    } catch (e) {
+
+      if (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    } catch {
       // Fallback if localStorage is not available
     }
   }, []);

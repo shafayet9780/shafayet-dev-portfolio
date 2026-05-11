@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-center md:text-left mb-4 md:mb-0">
             <h3 className="text-xl font-bold text-indigo-600 dark:text-indigo-400">Shafayet Ahmmed</h3>
-            <p className="text-gray-600 dark:text-gray-400">Full Stack Developer</p>
+            <p className="text-gray-600 dark:text-gray-400">Engineering Leader</p>
           </div>
           <div className="flex space-x-4">
             <SocialLink href="https://github.com" icon={<FaGithub />} />

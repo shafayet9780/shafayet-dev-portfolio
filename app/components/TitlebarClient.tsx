@@ -129,125 +129,125 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
       File: [
         {
           label: "Open Home",
-          detail: "Return to the engineering command center.",
+          detail: "Return to the command center.",
           href: "/",
         },
         {
           label: "Open Case Studies",
-          detail: "Inspect selected work through context, decisions, and outcomes.",
+          detail: "Inspect decisions and outcomes.",
           href: "/projects",
         },
         {
           label: "Open GitHub",
-          detail: "View activity, repositories, and maintenance signals.",
+          detail: "View activity and repository signals.",
           href: "/github",
         },
         {
           label: "Open Contact",
-          detail: "Start a senior engineering or architecture conversation.",
+          detail: "Start a technical conversation.",
           href: "/contact",
         },
       ],
       Edit: [
         {
           label: "Copy Current URL",
-          detail: "Copy this workspace route for quick sharing.",
+          detail: "Copy this route.",
           run: () => copyToClipboard(window.location.href, "url.copied"),
         },
         {
           label: "Copy Email",
-          detail: "Copy the direct contact address.",
+          detail: "Copy the contact address.",
           run: () => copyToClipboard("contact@shafayet.dev", "email.copied"),
         },
         {
           label: "Open Command Center",
-          detail: "Search the whole portfolio workspace.",
+          detail: "Search the workspace.",
           run: openCommandCenter,
         },
       ],
       View: [
         {
           label: "Capability Matrix",
-          detail: "Jump to applied leadership, architecture, DevOps, and delivery strengths.",
+          detail: "Open applied engineering strengths.",
           href: "/#capabilities",
         },
         {
           label: "GitHub Activity",
-          detail: "Open the daywise activity matrix and repository signal board.",
+          detail: "Open activity and repository signals.",
           href: "/github",
         },
         {
           label: "Theme Settings",
-          detail: "Open the workspace theme preferences.",
+          detail: "Open theme preferences.",
           href: "/settings",
         },
       ],
       Go: [
         {
           label: "Go to About",
-          detail: "Read the leadership profile and operating style.",
+          detail: "Read the leadership profile.",
           href: "/about",
         },
         {
           label: "Go to Notes",
-          detail: "Open technical field notes and engineering writing.",
+          detail: "Open technical field notes.",
           href: "/blog",
         },
         {
           label: "Go to Contact",
-          detail: "Open the focused collaboration handoff.",
+          detail: "Open the collaboration handoff.",
           href: "/contact",
         },
       ],
       Run: [
         {
           label: "Architecture Review",
-          detail: "Preview the lens: boundaries, tradeoffs, reliability, and delivery risk.",
+          detail: "Boundaries, tradeoffs, and delivery risk.",
           href: "/projects",
         },
         {
           label: "Reliability Check",
-          detail: "Preview the lens: CI/CD, release confidence, monitoring, and rollback thinking.",
+          detail: "CI/CD, release confidence, and rollback thinking.",
           href: "/github",
         },
         {
           label: "Leadership Brief",
-          detail: "Preview the lens: team clarity, review culture, planning, and execution.",
+          detail: "Team clarity, reviews, and execution.",
           href: "/about",
         },
       ],
       Terminal: [
         {
           label: "whoami",
-          detail: "Print the current positioning.",
+          detail: "Show current positioning.",
           href: "/about",
         },
         {
           label: "pwd",
-          detail: "Show the current workspace file.",
+          detail: "Show current file.",
           run: () => showCommandOutput(`pwd -> ${activeFile.filename}`),
         },
         {
           label: "open command-center",
-          detail: "Launch the keyboard-first workspace command surface.",
+          detail: "Launch command search.",
           run: openCommandCenter,
         },
       ],
       Help: [
         {
           label: "About Shafayet",
-          detail: "Open the leadership profile and engineering point of view.",
+          detail: "Open the leadership profile.",
           href: "/about",
         },
         {
           label: "GitHub Profile",
-          detail: "Open the source profile in a new tab.",
+          detail: "Open the source profile.",
           href: "https://github.com/shafayet9780",
           external: true,
         },
         {
           label: "Start a Conversation",
-          detail: "Open contact options for senior engineering collaboration.",
+          detail: "Open contact options.",
           href: "/contact",
         },
       ],

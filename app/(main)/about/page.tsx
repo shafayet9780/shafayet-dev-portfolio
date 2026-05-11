@@ -11,6 +11,10 @@ import {
   SiTypescript,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
+import {
+  ExperienceTimeline,
+  type ExperienceItem,
+} from "@/app/components/ExperienceTimeline";
 
 interface AboutData {
   mainName?: string;
@@ -45,10 +49,10 @@ const fallbackSkills = [
 ];
 
 const workflow = [
-  "Clarify the problem, risk, and decision surface",
-  "Shape the architecture and ownership model",
-  "Guide implementation through reviews and tradeoffs",
-  "Stabilize delivery with DevOps and release discipline",
+  "Clarify the risk and decision surface",
+  "Shape architecture and ownership",
+  "Guide tradeoffs through review",
+  "Stabilize delivery discipline",
 ];
 
 function textOrFallback(value: string | undefined, fallback: string) {
@@ -94,12 +98,43 @@ async function getData() {
       skills
     }
   `);
+
+  const experiences = await client.fetch<ExperienceItem[]>(`
+    *[_type == "experience"] | order(startDate desc, orderRank asc) {
+      _id,
+      companyName,
+      companyUrl,
+      role,
+      employmentType,
+      startDate,
+      endDate,
+      isCurrent,
+      location,
+      sectors,
+      products[] {
+        name,
+        sector,
+        summary,
+        url
+      },
+      scopeSummary,
+      proofPoints,
+      outcomes,
+      technologies,
+      companyLogo {
+        asset->{
+          url
+        },
+        alt
+      }
+    }
+  `);
   
-  return { aboutData };
+  return { aboutData, experiences };
 }
 
 export default async function AboutPage() {
-  const { aboutData } = await getData();
+  const { aboutData, experiences } = await getData();
   const skills = aboutData?.skills?.length ? aboutData.skills : fallbackSkills;
   const image = aboutData?.aboutImage || aboutData?.profileImage;
   const title = textOrFallback(
@@ -112,7 +147,7 @@ export default async function AboutPage() {
     aboutData?.description === legacyDescription
       ? undefined
       : aboutData?.description,
-    "Engineering leader, full stack architect, and DevOps specialist focused on reliable systems, team clarity, and production delivery."
+    "Engineering leader focused on architecture clarity, team execution, and reliable delivery."
   );
   const legacyJobTitle = "Full Stack Developer & DevOps Engineer";
   const jobTitle = textOrFallback(
@@ -175,13 +210,13 @@ export default async function AboutPage() {
               <div className="flex justify-between gap-4 border-b border-(--explorer-border) pb-2">
                 <span className="text-(--text-color) opacity-45">focus</span>
                 <span className="text-right text-(--text-color) opacity-75">
-                  Architecture, DevOps, Teams
+                  Architecture, reliability, teams
                 </span>
               </div>
               <div className="flex justify-between gap-4">
                 <span className="text-(--text-color) opacity-45">mode</span>
                 <span className="text-right text-(--text-color) opacity-75">
-                  Clarity under complexity
+                  Clarity first
                 </span>
               </div>
             </div>
@@ -204,10 +239,9 @@ export default async function AboutPage() {
             />
           ) : (
             <p className="mt-5 max-w-3xl text-sm leading-7 text-(--text-color) opacity-70">
-              I work across architecture, implementation, DevOps, and team
-              execution. The goal is not only to write good code, but to make
-              the system easier to understand, safer to change, and calmer to
-              ship.
+              I work across architecture, delivery, and team execution. The
+              goal is a system that is easier to understand, safer to change,
+              and calmer to ship.
             </p>
           )}
 
@@ -256,6 +290,8 @@ export default async function AboutPage() {
           </div>
         </aside>
       </section>
+
+      <ExperienceTimeline experiences={experiences} />
     </div>
   );
 }

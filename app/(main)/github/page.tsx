@@ -350,12 +350,11 @@ export default async function GitHubPage() {
             github.credibility
           </p>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] text-(--text-color) sm:text-6xl">
-            Open-source habits and repository signals.
+            Repository signals, kept focused.
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-8 text-(--text-color) opacity-70">
-            A compact view of public activity, technical range, and maintained
-            work. This page supports the portfolio story without turning the
-            homepage into a metrics wall.
+            Public activity, technical range, and maintenance habits. Useful
+            proof, kept away from the homepage.
           </p>
         </div>
 
@@ -427,7 +426,7 @@ export default async function GitHubPage() {
                 github.activity
               </p>
               <h2 className="mt-2 text-2xl font-bold text-(--text-color)">
-                Contribution activity matrix
+                Daywise activity matrix
               </h2>
             </div>
             <p className="font-mono text-[11px] text-(--text-color) opacity-50">
@@ -553,8 +552,7 @@ export default async function GitHubPage() {
                 ))
               ) : (
                 <p className="text-sm leading-6 text-(--text-color) opacity-65">
-                  Language data will appear when public repositories are
-                  available.
+                  Language data appears when public repositories are available.
                 </p>
               )}
             </div>
@@ -569,7 +567,7 @@ export default async function GitHubPage() {
               repo.signal.board
             </p>
             <h2 className="mt-2 text-3xl font-bold text-(--text-color)">
-              Recently maintained repositories
+              Recently maintained repos
             </h2>
           </div>
           <p className="font-mono text-xs text-(--text-color) opacity-50">
@@ -620,8 +618,8 @@ export default async function GitHubPage() {
         ) : (
           <div className="rounded-lg border border-(--explorer-border) bg-(--article-bg) p-6 text-center shadow-xl">
             <p className="font-mono text-sm text-(--text-color) opacity-70">
-              Repository signals are unavailable right now. The page is ready to
-              render once GitHub responds or credentials are configured.
+              Repository signals are unavailable. They will render when GitHub
+              responds or credentials are configured.
             </p>
           </div>
         )}
@@ -634,7 +632,7 @@ export default async function GitHubPage() {
               credibility.top-repos
             </p>
             <h2 className="mt-2 text-2xl font-bold text-(--text-color)">
-              Repository signal highlights
+              Repository highlights
             </h2>
             <div className="mt-5 grid gap-3">
               {mostStarred.map((repo) => (

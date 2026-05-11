@@ -22,13 +22,18 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 let theme = localStorage.getItem('theme');
+                let userThemeSet = localStorage.getItem('theme:user-set');
                 
-                if (theme === 'vs-light' || (!theme && !isDark)) {
-                  document.documentElement.setAttribute('data-theme', 'vs-light');
-                } else if (theme) {
+                if (theme === 'vs-light' && !userThemeSet) {
+                  localStorage.removeItem('theme');
+                  theme = '';
+                }
+
+                if (theme) {
                   document.documentElement.setAttribute('data-theme', theme);
+                } else {
+                  document.documentElement.removeAttribute('data-theme');
                 }
               } catch (e) {}
             `

@@ -4,9 +4,9 @@
 
 :root {
   /* old ones */
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 239, 239, 239;
+  --background-start-rgb: 36, 41, 46;
+  --background-end-rgb: 31, 36, 40;
   /* new ones */
   --main-bg: #24292e;
   --bg-text: rgba(56, 58, 61, 0.35);

@@ -32,18 +32,18 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
       })),
       {
         label: "Open capability matrix",
-        description: "Leadership, architecture, DevOps, and product engineering",
+        description: "Applied leadership, architecture, and reliability",
         action: () => router.push("/#capabilities"),
       },
       {
-        label: "Open project case studies",
+        label: "Open case studies",
         href: "/projects",
-        description: "Jump to engineering work and case-study proof",
+        description: "Read technical decisions and outcomes",
       },
       {
-        label: "Copy contact path",
+        label: "Open contact",
         href: "/contact",
-        description: "Open the contact workspace",
+        description: "Start a focused technical conversation",
       },
     ],
     [router]
@@ -122,7 +122,7 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type a command or search the workspace..."
+            placeholder="Search the workspace..."
             className="w-full rounded-md border border-(--explorer-border) bg-(--main-bg) px-4 py-3 font-mono text-sm text-(--text-color) outline-hidden placeholder:text-[rgba(var(--text-rgb),0.35)]"
           />
         </div>

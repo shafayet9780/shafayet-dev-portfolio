@@ -46,10 +46,12 @@ export default function SettingsPage() {
   ];
   
   useEffect(() => {
-    // Get theme from localStorage on component mount
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = localStorage.getItem("theme") || "";
+    setActiveTheme(savedTheme);
     if (savedTheme) {
-      setActiveTheme(savedTheme);
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    } else {
+      document.documentElement.removeAttribute("data-theme");
     }
   }, []);
   
@@ -60,6 +62,7 @@ export default function SettingsPage() {
       document.documentElement.removeAttribute("data-theme");
     }
     localStorage.setItem("theme", theme);
+    localStorage.setItem("theme:user-set", "true");
     setActiveTheme(theme);
     window.dispatchEvent(new Event("portfolio:theme-change"));
   };
