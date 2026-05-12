@@ -40,9 +40,17 @@ export const siteSettingsType = defineType({
       name: 'headerText',
       title: 'Header Text',
       type: 'string',
-      description: 'Large text displayed in the background (e.g., "I BUILD WEBSITES")',
-      initialValue: 'I BUILD WEBSITES',
+      description: 'Small hero eyebrow text displayed above your name',
+      initialValue: 'HELLO WORLD',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'bio',
+      title: 'Hero Bio',
+      type: 'text',
+      rows: 2,
+      description: 'Short hero sentence under your role',
+      initialValue: 'I help teams clarify architecture, reduce delivery risk, and ship reliable software.',
     }),
     defineField({
       name: 'profileImage',
@@ -64,7 +72,7 @@ export const siteSettingsType = defineType({
       title: 'CTA Button Text',
       type: 'string',
       description: 'Text for the primary call-to-action button',
-      initialValue: 'View Work',
+      initialValue: 'View Case Studies',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -80,7 +88,7 @@ export const siteSettingsType = defineType({
       title: 'Secondary CTA Text',
       type: 'string',
       description: 'Text for the secondary call-to-action button',
-      initialValue: 'Contact Me',
+      initialValue: 'Start a Conversation',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

@@ -1,4 +1,18 @@
 import Image from "next/image";
+import { JsonLd } from "@/app/components/JsonLd";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  graphJsonLd,
+  personJsonLd,
+} from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "GitHub Activity and Repository Signals",
+  description:
+    "GitHub activity, repository signals, language range, and engineering habits for Shafayet Ahmmed.",
+  path: "/github",
+});
 
 interface GitHubRepo {
   id: number;
@@ -341,6 +355,15 @@ export default async function GitHubPage() {
 
   return (
     <div className="relative overflow-hidden pb-14">
+      <JsonLd
+        data={graphJsonLd([
+          personJsonLd(),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "GitHub", path: "/github" },
+          ]),
+        ])}
+      />
       <div className="pointer-events-none absolute inset-0 workstation-grid opacity-25" />
       <div className="pointer-events-none absolute right-10 top-6 h-72 w-72 rounded-full bg-[rgba(var(--accent-rgb),0.12)] blur-3xl" />
 
@@ -358,7 +381,7 @@ export default async function GitHubPage() {
           </p>
         </div>
 
-        <aside className="overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-xl">
+        <aside className="premium-panel overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-xl">
           <div className="flex h-10 items-center justify-between border-b border-(--explorer-border) bg-(--titlebar-bg)/85 px-4">
             <div className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
@@ -408,7 +431,7 @@ export default async function GitHubPage() {
                   <p className="font-mono text-[10px] uppercase text-(--text-color) opacity-45">
                     {label}
                   </p>
-                  <p className="mt-1 text-lg font-bold text-(--text-color)">
+                  <p className="mt-1 break-words text-base font-bold text-(--text-color) sm:text-lg">
                     {value}
                   </p>
                 </div>
@@ -419,7 +442,7 @@ export default async function GitHubPage() {
       </section>
 
       <section className="relative grid gap-6 py-10 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="rounded-lg border border-(--explorer-border) bg-(--article-bg) p-5 shadow-xl">
+        <div className="premium-panel signature-scan relative overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) p-5 shadow-xl">
           <div className="mb-5 flex flex-col gap-2 border-b border-(--explorer-border) pb-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="font-mono text-xs text-(--accent-color)">
@@ -435,7 +458,7 @@ export default async function GitHubPage() {
           </div>
 
           <div className="overflow-x-auto pb-2">
-            <div className="flex min-w-[740px] gap-2">
+            <div className="flex min-w-[680px] gap-2 sm:min-w-[740px]">
               <div className="grid grid-rows-7 gap-1.5 pt-6 font-mono text-[10px] text-(--text-color) opacity-45">
                 {["", "Mon", "", "Wed", "", "Fri", ""].map((day, index) => (
                   <span key={`${day}-${index}`} className="h-3.5 leading-3.5">
@@ -444,13 +467,16 @@ export default async function GitHubPage() {
                 ))}
               </div>
               <div className="grid grid-flow-col grid-rows-7 gap-1.5">
-                {contributions.calendar.weeks.flatMap((week) =>
-                  week.contributionDays.map((day) => (
+                {contributions.calendar.weeks.flatMap((week, weekIndex) =>
+                  week.contributionDays.map((day, dayIndex) => (
                     <div
                       key={day.date}
-                      className={`h-3.5 w-3.5 rounded-[3px] border border-(--explorer-border) ${getActivityClass(
+                      className={`activity-cell h-3.5 w-3.5 rounded-[3px] border border-(--explorer-border) ${getActivityClass(
                         day.contributionCount,
                       )}`}
+                      style={{
+                        animationDelay: `${Math.min(0.5, (weekIndex * 7 + dayIndex) * 0.002)}s`,
+                      }}
                       title={`${day.date}: ${day.contributionCount} contributions`}
                     />
                   )),
@@ -459,7 +485,7 @@ export default async function GitHubPage() {
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 border-t border-(--explorer-border) pt-4 sm:grid-cols-5">
+          <div className="mt-5 grid grid-cols-2 gap-3 border-t border-(--explorer-border) pt-4 sm:grid-cols-3 xl:grid-cols-5">
             {[
               ["total", contributions.calendar.totalContributions],
               ["commits", contributions.totalCommits],
@@ -471,7 +497,7 @@ export default async function GitHubPage() {
                 <p className="font-mono text-[10px] uppercase text-(--text-color) opacity-45">
                   {label}
                 </p>
-                <p className="mt-1 text-lg font-bold text-(--text-color)">
+                <p className="mt-1 break-words text-base font-bold text-(--text-color) sm:text-lg">
                   {value}
                 </p>
               </div>
@@ -479,7 +505,7 @@ export default async function GitHubPage() {
           </div>
         </div>
 
-        <aside className="rounded-lg border border-(--explorer-border) bg-(--article-bg) p-5 shadow-xl">
+        <aside className="premium-panel rounded-lg border border-(--explorer-border) bg-(--article-bg) p-5 shadow-xl">
           <p className="font-mono text-xs text-(--accent-color)">
             habits.detected
           </p>
@@ -506,7 +532,7 @@ export default async function GitHubPage() {
                 <p className="font-mono text-[10px] uppercase text-(--text-color) opacity-45">
                   private repos
                 </p>
-                <p className="mt-1 text-lg font-bold text-(--text-color)">
+                <p className="mt-1 break-words text-base font-bold text-(--text-color) sm:text-lg">
                   {privateRepoStats?.count ?? "token required"}
                 </p>
               </div>
@@ -514,7 +540,7 @@ export default async function GitHubPage() {
                 <p className="font-mono text-[10px] uppercase text-(--text-color) opacity-45">
                   active 90d
                 </p>
-                <p className="mt-1 text-lg font-bold text-(--text-color)">
+                <p className="mt-1 break-words text-base font-bold text-(--text-color) sm:text-lg">
                   {privateRepoStats?.updatedRecently ?? "token required"}
                 </p>
               </div>

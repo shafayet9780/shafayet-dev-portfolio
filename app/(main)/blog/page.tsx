@@ -2,6 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/studio/lib/client";
 import ArticleCard from "@/app/components/ArticleCard";
+import { JsonLd } from "@/app/components/JsonLd";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  graphJsonLd,
+} from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Technical Field Notes",
+  description:
+    "Technical notes from Shafayet Ahmmed on architecture, DevOps, delivery, content systems, and engineering leadership.",
+  path: "/blog",
+});
 
 interface Post {
   _id: string;
@@ -84,6 +97,14 @@ export default async function BlogPage() {
   
   return (
     <div className="relative overflow-hidden pb-14">
+      <JsonLd
+        data={graphJsonLd([
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+          ]),
+        ])}
+      />
       <div className="pointer-events-none absolute inset-0 workstation-grid opacity-25" />
       <div className="pointer-events-none absolute right-6 top-10 h-64 w-64 rounded-full bg-[rgba(var(--accent-rgb),0.12)] blur-3xl" />
 

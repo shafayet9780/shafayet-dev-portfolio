@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { workspaceItems } from "../workspaceNavigation";
 
@@ -22,6 +22,7 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const commands = useMemo<Command[]>(
     () => [
@@ -97,18 +98,18 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={shouldReduceMotion ? false : { opacity: 0 }}
+      animate={shouldReduceMotion ? undefined : { opacity: 1 }}
+      exit={shouldReduceMotion ? undefined : { opacity: 0 }}
       className="fixed inset-0 z-50 flex items-start justify-center bg-black/55 px-4 pt-[12vh] backdrop-blur-sm"
       onMouseDown={onClose}
     >
       <motion.div
-        initial={{ scale: 0.97, opacity: 0, y: -10 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.97, opacity: 0, y: -10 }}
+        initial={shouldReduceMotion ? false : { scale: 0.97, opacity: 0, y: -10 }}
+        animate={shouldReduceMotion ? undefined : { scale: 1, opacity: 1, y: 0 }}
+        exit={shouldReduceMotion ? undefined : { scale: 0.97, opacity: 0, y: -10 }}
         transition={{ duration: 0.18 }}
-        className="w-full max-w-3xl overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl"
+        className="premium-panel signature-scan relative w-full max-w-3xl overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <div className="border-b border-(--explorer-border) bg-(--titlebar-bg)/80 p-3">

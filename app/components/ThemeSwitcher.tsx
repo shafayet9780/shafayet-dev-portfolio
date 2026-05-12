@@ -46,16 +46,16 @@ export default function ThemeSwitcher() {
     <div className="relative">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-(--accent-color) text-(--main-bg) p-2 rounded-full shadow-lg hover:opacity-90 transition-opacity"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-(--accent-color) text-(--main-bg) shadow-lg transition-opacity hover:opacity-90 md:h-11 md:w-11"
         title="Change Theme"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
         </svg>
       </button>
       
       {isOpen && (
-        <div className="absolute bottom-full right-0 mb-2 bg-(--article-bg) rounded-md shadow-lg overflow-hidden w-56">
+        <div className="premium-panel absolute bottom-full right-0 mb-2 max-h-[70vh] w-56 overflow-y-auto rounded-md border border-(--explorer-border) bg-(--article-bg) shadow-lg">
           <div className="py-1 px-3 text-xs font-semibold text-(--accent-color) border-b border-(--explorer-border)">
             Light Themes
           </div>

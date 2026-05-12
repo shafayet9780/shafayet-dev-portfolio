@@ -2,12 +2,47 @@ import "./globals.css";
 import "./theme.css";
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
+import {
+  defaultDescription,
+  defaultKeywords,
+  siteTitle,
+  siteUrl,
+} from "@/lib/seo";
 
 const sourceSans = Source_Sans_3({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Shafayet's Portfolio",
-  description: "Portfolio of Shafayet Ahmmed",
+  metadataBase: new URL(siteUrl),
+  applicationName: "shafayet.dev",
+  title: {
+    default: `${siteTitle} | Engineering Leader & Full Stack Architect`,
+    template: `%s | ${siteTitle}`,
+  },
+  description: defaultDescription,
+  keywords: defaultKeywords,
+  authors: [{ name: siteTitle, url: siteUrl }],
+  creator: siteTitle,
+  publisher: siteTitle,
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    title: `${siteTitle} | Engineering Leader & Full Stack Architect`,
+    description: defaultDescription,
+    url: siteUrl,
+    siteName: siteTitle,
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: `${siteTitle} | Engineering Leader & Full Stack Architect`,
+    description: defaultDescription,
+    creator: "@shafayet2368",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

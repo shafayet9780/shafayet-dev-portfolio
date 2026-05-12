@@ -15,6 +15,20 @@ import {
   ExperienceTimeline,
   type ExperienceItem,
 } from "@/app/components/ExperienceTimeline";
+import { JsonLd } from "@/app/components/JsonLd";
+import {
+  createPageMetadata,
+  graphJsonLd,
+  personJsonLd,
+  breadcrumbJsonLd,
+} from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "About Shafayet Ahmmed",
+  description:
+    "Leadership profile for Shafayet Ahmmed, focused on architecture clarity, team execution, DevOps maturity, and reliable delivery.",
+  path: "/about",
+});
 
 interface AboutData {
   mainName?: string;
@@ -157,6 +171,15 @@ export default async function AboutPage() {
   
   return (
     <div className="relative overflow-hidden pb-14">
+      <JsonLd
+        data={graphJsonLd([
+          personJsonLd(),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+        ])}
+      />
       <div className="pointer-events-none absolute inset-0 workstation-grid opacity-25" />
       <div className="pointer-events-none absolute right-8 top-10 h-64 w-64 rounded-full bg-[rgba(var(--accent-rgb),0.12)] blur-3xl" />
 

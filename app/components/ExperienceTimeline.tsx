@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 export interface ExperienceProduct {
   name?: string;
@@ -165,6 +166,7 @@ export function ExperienceTimeline({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeExperience = experiences[activeIndex];
+  const shouldReduceMotion = useReducedMotion();
   const yearRange = useMemo(() => {
     if (!experiences.length) return "pending";
     const years = experiences
@@ -206,7 +208,7 @@ export function ExperienceTimeline({
               <button
                 key={experience._id}
                 type="button"
-                className={`group w-full rounded-md border px-3 py-3 text-left transition-colors ${
+                className={`group w-full rounded-md border px-3 py-3 text-left transition-[border-color,background-color,transform] hover:-translate-y-0.5 ${
                   isActive
                     ? "border-(--accent-color) bg-[rgba(var(--accent-rgb),0.1)]"
                     : "border-transparent hover:border-(--explorer-border) hover:bg-(--main-bg)/55"
@@ -232,7 +234,7 @@ export function ExperienceTimeline({
           })}
         </div>
 
-        <div className="hidden overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl lg:block">
+        <div className="premium-panel signature-scan relative hidden overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl lg:block">
           <div className="flex h-10 items-center justify-between border-b border-(--explorer-border) bg-(--titlebar-bg)/85 px-4">
             <div className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
@@ -244,7 +246,15 @@ export function ExperienceTimeline({
             </p>
           </div>
 
-          <div className="grid gap-5 p-5 xl:grid-cols-[1fr_220px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeExperience._id}
+              className="grid gap-5 p-5 xl:grid-cols-[1fr_220px]"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
             <div>
               <p className="font-mono text-xs text-(--accent-color)">
                 {formatRange(activeExperience)}
@@ -345,7 +355,8 @@ export function ExperienceTimeline({
                 </div>
               ) : null}
             </aside>
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         <div className="grid gap-4 lg:hidden">

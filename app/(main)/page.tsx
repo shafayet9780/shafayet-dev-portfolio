@@ -1,6 +1,20 @@
 // Import homepage client component
 import HomePage from './home-client';
 import { client } from "@/studio/lib/client";
+import { JsonLd } from "@/app/components/JsonLd";
+import {
+  createPageMetadata,
+  graphJsonLd,
+  personJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Engineering Leader, Full Stack Architect & DevOps Specialist",
+  description:
+    "Shafayet Ahmmed helps teams clarify architecture, reduce delivery risk, and ship reliable production software.",
+  path: "/",
+});
 
 // Server component
 export default async function Page() {
@@ -46,10 +60,13 @@ export default async function Page() {
   
   // Pass data to client component
   return (
-    <HomePage 
-      siteSettings={siteSettings}
-      projects={projects}
-      experiences={experiences}
-    />
+    <>
+      <JsonLd data={graphJsonLd([personJsonLd(), websiteJsonLd()])} />
+      <HomePage 
+        siteSettings={siteSettings}
+        projects={projects}
+        experiences={experiences}
+      />
+    </>
   );
 }

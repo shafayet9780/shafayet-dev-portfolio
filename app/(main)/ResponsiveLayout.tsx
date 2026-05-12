@@ -197,7 +197,7 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
         <main 
           ref={mainRef} 
           onContextMenu={handleContextMenu}
-          className="flex-1 overflow-auto bg-(--main-bg) text-(--text-color) p-4 md:p-8 scroll-smooth"
+          className="flex-1 overflow-auto bg-(--main-bg) p-4 pb-16 text-(--text-color) scroll-smooth md:p-8 md:pb-20"
         >
           <div className="max-w-full">
             {children}
@@ -206,7 +206,7 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
       </div>
       
       {/* Theme switcher - positioned above the bottombar */}
-      <div className="fixed bottom-[40px] right-[20px] z-30">
+      <div className="fixed bottom-[42px] right-3 z-30 md:bottom-[40px] md:right-[20px]">
         <ThemeSwitcher />
       </div>
       

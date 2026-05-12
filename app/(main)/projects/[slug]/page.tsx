@@ -6,6 +6,14 @@ import type { PortableTextBlock } from "@portabletext/react";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { client } from "@/studio/lib/client";
+import { JsonLd } from "@/app/components/JsonLd";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  creativeWorkJsonLd,
+  graphJsonLd,
+  personJsonLd,
+} from "@/lib/seo";
 
 interface ProjectProcessStep {
   _key?: string;
@@ -15,6 +23,7 @@ interface ProjectProcessStep {
 
 interface ProjectDetail {
   title: string;
+  _updatedAt?: string;
   slug?: { current: string };
   excerpt?: string;
   role?: string;
@@ -42,6 +51,7 @@ interface PageProps {
 const PROJECT_QUERY = `
   *[_type == "project" && slug.current in [$slug, $slashSlug]][0] {
     title,
+    _updatedAt,
     slug,
     excerpt,
     role,
@@ -97,11 +107,16 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${project.title} | Shafayet Ahmmed`,
-    description:
-      project.excerpt ||
-      project.problem ||
-      "A focused engineering case study by Shafayet Ahmmed.",
+    ...createPageMetadata({
+      title: project.title,
+      description:
+        project.excerpt ||
+        project.problem ||
+        "A focused engineering case study by Shafayet Ahmmed.",
+      path: `/projects/${slug}`,
+      type: "article",
+      image: project.mainImage?.asset?.url,
+    }),
   };
 }
 
@@ -224,9 +239,30 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const visibleTags = tags.slice(0, 4);
   const visibleHighlights = highlights.slice(0, 3);
   const heroAlt = project.mainImage?.alt || `${project.title} case study preview`;
+  const description =
+    project.excerpt ||
+    project.problem ||
+    "A focused engineering case study by Shafayet Ahmmed.";
 
   return (
     <article className="relative overflow-hidden pb-14">
+      <JsonLd
+        data={graphJsonLd([
+          personJsonLd(),
+          creativeWorkJsonLd({
+            title: project.title,
+            description,
+            path: normalizeProjectHref(project),
+            image: project.mainImage?.asset?.url,
+            keywords: tags,
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+            { name: project.title, path: normalizeProjectHref(project) },
+          ]),
+        ])}
+      />
       <div className="pointer-events-none absolute inset-0 workstation-grid opacity-25" />
       <div className="pointer-events-none absolute right-0 top-10 h-72 w-72 rounded-full bg-[rgba(var(--accent-rgb),0.13)] blur-3xl" />
 

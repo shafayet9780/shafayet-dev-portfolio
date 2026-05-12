@@ -2,6 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/studio/lib/client";
 import ProjectCard from "@/app/components/ProjectCard";
+import { JsonLd } from "@/app/components/JsonLd";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  graphJsonLd,
+} from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Engineering Case Studies",
+  description:
+    "Selected case studies from Shafayet Ahmmed, framed around architecture decisions, delivery constraints, technical direction, and outcomes.",
+  path: "/projects",
+});
 
 interface Project {
   _id: string;
@@ -62,6 +75,14 @@ export default async function ProjectsPage() {
   
   return (
     <div className="relative overflow-hidden pb-14">
+      <JsonLd
+        data={graphJsonLd([
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+          ]),
+        ])}
+      />
       <div className="pointer-events-none absolute inset-0 workstation-grid opacity-25" />
       <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-[rgba(var(--accent-rgb),0.12)] blur-3xl" />
 

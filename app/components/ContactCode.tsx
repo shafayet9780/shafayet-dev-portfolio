@@ -22,8 +22,8 @@ const defaultContactItems: ContactItem[] = [
   },
   {
     social: "linkedin",
-    link: "shafayet-ahmmed",
-    href: "https://www.linkedin.com/in/shafayet-ahmmed/",
+    link: "shafayet2368",
+    href: "https://www.linkedin.com/in/shafayet2368/",
   },
 ];
 

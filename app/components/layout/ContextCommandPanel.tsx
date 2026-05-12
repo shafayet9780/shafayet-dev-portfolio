@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { getActiveWorkspaceItem } from "../workspaceNavigation";
 
@@ -212,6 +212,7 @@ export function ContextCommandPanel({
   const [activeIndex, setActiveIndex] = useState(0);
   const [status, setStatus] = useState("context.ready");
   const activeFile = getActiveWorkspaceItem(pathname);
+  const shouldReduceMotion = useReducedMotion();
 
   const actions = useMemo<ContextAction[]>(
     () => [
@@ -306,11 +307,11 @@ export function ContextCommandPanel({
       ref={panelRef}
       role="menu"
       aria-label="Context actions"
-      initial={{ opacity: 0, scale: 0.96, y: 4 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.96, y: 4 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96, y: 4 }}
+      animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
+      exit={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.96, y: 4 }}
       transition={{ duration: 0.16, ease: "easeOut" }}
-      className="fixed z-50 w-[min(92vw,420px)] overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl"
+      className="premium-panel signature-scan fixed z-50 w-[min(92vw,420px)] overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl"
       style={{ left: x, top: y }}
       onContextMenu={(event) => event.preventDefault()}
     >

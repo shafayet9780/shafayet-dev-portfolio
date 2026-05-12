@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getActiveWorkspaceItem } from "./workspaceNavigation";
 
@@ -42,6 +42,7 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const activeFile = getActiveWorkspaceItem(pathname);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const handleResize = () => {
@@ -285,11 +286,11 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
 
   const menuPanel = activeMenu ? (
     <motion.div
-      initial={{ opacity: 0, y: -4, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -4, scale: 0.98 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: -4, scale: 0.98 }}
+      animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+      exit={shouldReduceMotion ? undefined : { opacity: 0, y: -4, scale: 0.98 }}
       transition={{ duration: 0.14, ease: "easeOut" }}
-      className="fixed left-8 top-[30px] z-[1000] w-[min(92vw,430px)] overflow-hidden rounded-md border border-(--explorer-border) bg-(--article-bg) text-(--text-color) shadow-2xl"
+      className="premium-panel signature-scan fixed left-8 top-[30px] z-[1000] w-[min(92vw,430px)] overflow-hidden rounded-md border border-(--explorer-border) bg-(--article-bg) text-(--text-color) shadow-2xl"
       data-titlebar-menu
       onPointerDown={(event) => event.stopPropagation()}
     >
@@ -423,9 +424,9 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
       <AnimatePresence>
         {isOutputVisible && (
           <motion.div
-            initial={{ opacity: 0, y: -4, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: -4, scale: 0.98 }}
+            animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+            exit={shouldReduceMotion ? undefined : { opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.16, ease: "easeOut" }}
             className="pointer-events-none absolute left-1/2 top-[32px] z-50 hidden -translate-x-1/2 rounded-full border border-(--explorer-border) bg-(--article-bg) px-3 py-1.5 font-mono text-[11px] text-(--accent-color) shadow-xl sm:block"
           >
@@ -462,7 +463,7 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
             onClick={() => setMenuOpen(false)}
           ></div>
           <div
-            className="absolute top-[30px] left-0 z-50 w-[min(92vw,430px)] overflow-hidden rounded-md border border-(--explorer-border) bg-(--article-bg) shadow-2xl backdrop-blur-xs"
+            className="premium-panel absolute top-[30px] left-0 z-50 w-[min(92vw,430px)] overflow-hidden rounded-md border border-(--explorer-border) bg-(--article-bg) shadow-2xl backdrop-blur-xs"
             data-titlebar-menu
             onPointerDown={(event) => event.stopPropagation()}
           >

@@ -8,9 +8,18 @@ import type {
 } from "@portabletext/react";
 import type { Metadata } from "next";
 import { client } from "@/studio/lib/client";
+import { JsonLd } from "@/app/components/JsonLd";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  createPageMetadata,
+  graphJsonLd,
+  personJsonLd,
+} from "@/lib/seo";
 
 interface PostDetail {
   title: string;
+  _updatedAt?: string;
   slug?: { current: string };
   excerpt?: string;
   publishedAt?: string;
@@ -44,6 +53,7 @@ interface PageProps {
 const POST_QUERY = `
   *[_type == "post" && slug.current in [$slug, $slashSlug]][0] {
     title,
+    _updatedAt,
     slug,
     excerpt,
     publishedAt,
@@ -217,9 +227,13 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${post.title} | Shafayet Ahmmed`,
-    description:
-      post.excerpt || "A technical field note by Shafayet Ahmmed.",
+    ...createPageMetadata({
+      title: post.title,
+      description: post.excerpt || "A technical field note by Shafayet Ahmmed.",
+      path: `/blog/${slug}`,
+      type: "article",
+      image: post.mainImage?.asset?.url,
+    }),
   };
 }
 
@@ -233,9 +247,30 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const readMinutes = estimateReadMinutes(post.body);
   const categories = post.categories?.length ? post.categories : ["Field Note"];
+  const description = post.excerpt || "A technical field note by Shafayet Ahmmed.";
+  const postPath = `/blog/${post.slug?.current?.replace(/^\/+/, "") || slug}`;
 
   return (
     <article className="relative overflow-hidden pb-14">
+      <JsonLd
+        data={graphJsonLd([
+          personJsonLd(),
+          articleJsonLd({
+            title: post.title,
+            description,
+            path: postPath,
+            publishedAt: post.publishedAt,
+            updatedAt: post._updatedAt,
+            image: post.mainImage?.asset?.url,
+            authorName: post.author?.name || "Shafayet Ahmmed",
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: postPath },
+          ]),
+        ])}
+      />
       <div className="pointer-events-none absolute inset-0 workstation-grid opacity-25" />
       <div className="pointer-events-none absolute right-6 top-10 h-64 w-64 rounded-full bg-[rgba(var(--accent-rgb),0.12)] blur-3xl" />
 

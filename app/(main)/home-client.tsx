@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 interface SiteSettings {
   mainName?: string | null;
@@ -76,11 +76,13 @@ function CapabilityCard({
   uses: string;
   index: number;
 }) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.article
       className="group relative overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) p-5 shadow-lg transition-colors hover:border-(--accent-color)"
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.4, delay: index * 0.06 }}
     >
@@ -100,11 +102,13 @@ function CapabilityCard({
 }
 
 function WorkstationVisual() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      className="relative min-h-[390px] overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl"
-      initial={{ opacity: 0, x: 24 }}
-      animate={{ opacity: 1, x: 0 }}
+      className="premium-panel signature-scan relative min-h-[390px] overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-2xl"
+      initial={shouldReduceMotion ? false : { opacity: 0, x: 24 }}
+      animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 0.15 }}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(var(--accent-rgb),0.18),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.055),transparent_42%)]" />
@@ -205,11 +209,13 @@ function WorkstationVisual() {
 }
 
 function ProjectPreview({ project, index }: { project: Project; index: number }) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.article
       className="group overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) shadow-lg transition-colors hover:border-(--accent-color)"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
     >
@@ -380,33 +386,16 @@ export default function HomePage({
   projects?: Project[];
   experiences?: ExperienceTeaserItem[];
 }) {
+  const shouldReduceMotion = useReducedMotion();
   const mainName = siteSettings?.mainName || "Shafayet Ahmmed";
-  const legacyJobTitles = ["Full Stack Developer & DevOps Engineer"];
-  const legacyHeaderText = [
-    "CREATIVE ENGINEER",
-    "I Build Scalable Software Solutions",
-    "I BUILD WEBSITES",
-  ];
   const jobTitle =
-    siteSettings?.jobTitle && !legacyJobTitles.includes(siteSettings.jobTitle)
-      ? siteSettings.jobTitle
-      : "Engineering Leader, Full Stack Architect & DevOps Specialist";
-  const headerText =
-    siteSettings?.headerText &&
-    !legacyHeaderText.includes(siteSettings.headerText)
-      ? siteSettings.headerText
-      : "HELLO WORLD";
-  const ctaText =
-    siteSettings?.ctaText &&
-    !["Explore", "Open Case Studies"].includes(siteSettings.ctaText)
-      ? siteSettings.ctaText
-      : "View Case Studies";
+    siteSettings?.jobTitle ||
+    "Engineering Leader, Full Stack Architect & DevOps Specialist";
+  const headerText = siteSettings?.headerText || "HELLO WORLD";
+  const ctaText = siteSettings?.ctaText || "View Case Studies";
   const ctaLink = siteSettings?.ctaLink || "/projects";
   const secondaryCtaText =
-    siteSettings?.secondaryCtaText &&
-    siteSettings.secondaryCtaText !== "Contact Me"
-      ? siteSettings.secondaryCtaText
-      : "Start a Conversation";
+    siteSettings?.secondaryCtaText || "Start a Conversation";
   const secondaryCtaLink = siteSettings?.secondaryCtaLink || "/contact";
   const bio =
     siteSettings?.bio ||
@@ -421,10 +410,10 @@ export default function HomePage({
       <div className="pointer-events-none absolute inset-0 workstation-grid opacity-35" />
       <div className="pointer-events-none absolute right-0 top-0 h-[520px] w-[520px] rounded-full bg-[rgba(var(--accent-rgb),0.1)] blur-3xl" />
 
-      <section className="relative grid min-h-[calc(100vh-170px)] items-center gap-14 py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] lg:py-20">
+      <section className="relative grid min-h-[calc(100vh-170px)] items-center gap-10 py-12 sm:gap-14 sm:py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] lg:py-20">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+          animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
         >
           <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-(--explorer-border) bg-(--article-bg)/80 px-4 py-2 font-mono text-xs text-(--text-color) shadow-lg">
@@ -432,7 +421,7 @@ export default function HomePage({
             {headerText}
           </div>
 
-          <h1 className="max-w-4xl text-5xl font-black leading-[0.98] text-(--text-color) sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-4xl text-4xl font-black leading-[1.02] text-(--text-color) sm:text-6xl lg:text-7xl">
             {mainName}
           </h1>
 

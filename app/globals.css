@@ -35,22 +35,9 @@
   --titlebar-border: #24292e;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--text-color);
+  background: var(--main-bg);
 }
 
 /* Typing cursor animation */
@@ -124,6 +111,56 @@ main > * {
   mask-image: radial-gradient(circle at 50% 38%, black 0%, transparent 78%);
 }
 
+@keyframes command-scan {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.42;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes activity-rise {
+  from {
+    transform: translateY(4px) scale(0.92);
+    opacity: 0.55;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.premium-panel {
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.signature-scan::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(var(--accent-rgb), 0.12) 46%,
+    transparent 58%
+  );
+  transform: translateX(-120%);
+  animation: command-scan 5.8s ease-in-out infinite;
+}
+
+.activity-cell {
+  animation: activity-rise 0.32s ease-out both;
+}
+
 .project-portable {
   color: var(--text-color);
 }
@@ -179,4 +216,24 @@ main > * {
 *:focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .signature-scan::after,
+  .activity-cell {
+    animation: none !important;
+  }
 }
