@@ -131,6 +131,13 @@ export default function Bottombar() {
 
         <StatusItem
           className="flex font-mono"
+          onClick={() => window.dispatchEvent(new Event("portfolio:open-terminal"))}
+        >
+          <span>&gt;_</span>
+        </StatusItem>
+
+        <StatusItem
+          className="flex font-mono"
           onClick={() => window.dispatchEvent(new Event("portfolio:open-command-center"))}
         >
           <span>⌘K</span>

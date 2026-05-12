@@ -8,6 +8,7 @@ import Bottombar from "../components/Bottombar";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import { CommandPalette } from "../components/layout/CommandPalette";
 import { ContextCommandPanel } from "../components/layout/ContextCommandPanel";
+import { TerminalDrawer, type TerminalProfile } from "../components/layout/TerminalDrawer";
 import { AnimatePresence } from "motion/react";
 
 interface ContextPanelPosition {
@@ -16,11 +17,18 @@ interface ContextPanelPosition {
 }
 
 // This is a client component - it cannot directly include server components that use async/await
-export default function ResponsiveLayout({ children }: { children: React.ReactNode }) {
+export default function ResponsiveLayout({
+  children,
+  terminalProfile,
+}: {
+  children: React.ReactNode;
+  terminalProfile: TerminalProfile;
+}) {
   const [isPanelsVisible, setIsPanelsVisible] = useState(true);
   const [isMobileView, setIsMobileView] = useState(false);
   const [isBottombarVisible, setIsBottombarVisible] = useState(true);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [contextPanelPosition, setContextPanelPosition] =
     useState<ContextPanelPosition | null>(null);
   const lastScrollY = useRef(0);
@@ -49,7 +57,15 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
   useEffect(() => {
     const openCommandPalette = () => {
       setContextPanelPosition(null);
+      setIsTerminalOpen(false);
       setIsCommandPaletteOpen(true);
+    };
+
+    const openTerminal = () => {
+      setContextPanelPosition(null);
+      setIsCommandPaletteOpen(false);
+      setIsBottombarVisible(true);
+      setIsTerminalOpen(true);
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -57,19 +73,37 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
         event.preventDefault();
         openCommandPalette();
       }
+
+      if (
+        (event.metaKey || event.ctrlKey) &&
+        (event.key === "`" || event.code === "Backquote")
+      ) {
+        event.preventDefault();
+        setContextPanelPosition(null);
+        setIsCommandPaletteOpen(false);
+        setIsBottombarVisible(true);
+        setIsTerminalOpen((current) => !current);
+      }
+
+      if (event.key === "Escape") {
+        setIsTerminalOpen(false);
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("portfolio:open-command-center", openCommandPalette);
+    window.addEventListener("portfolio:open-terminal", openTerminal);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("portfolio:open-command-center", openCommandPalette);
+      window.removeEventListener("portfolio:open-terminal", openTerminal);
     };
   }, []);
 
   const openCommandPalette = useCallback(() => {
     setContextPanelPosition(null);
+    setIsTerminalOpen(false);
     setIsCommandPaletteOpen(true);
   }, []);
 
@@ -129,6 +163,13 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
             y={contextPanelPosition.y}
             onClose={() => setContextPanelPosition(null)}
             onOpenCommandPalette={openCommandPalette}
+          />
+        )}
+        {isTerminalOpen && (
+          <TerminalDrawer
+            isOpen={isTerminalOpen}
+            onClose={() => setIsTerminalOpen(false)}
+            profile={terminalProfile}
           />
         )}
       </AnimatePresence>

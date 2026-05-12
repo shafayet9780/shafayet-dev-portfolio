@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Titlebar from "../components/Titlebar";
 import ClientThemeProvider from "../components/ClientThemeProvider";
 import ResponsiveLayout from "@/app/(main)/ResponsiveLayout";
+import type { TerminalProfile } from "../components/layout/TerminalDrawer";
 
 export const revalidate = 120;
 
@@ -30,11 +31,33 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function MainLayout({
+async function getTerminalProfile(): Promise<TerminalProfile> {
+  const settings = await client.fetch(`
+    *[_type == "siteSettings"][0] {
+      mainName,
+      jobTitle,
+      bio
+    }
+  `);
+
+  return {
+    mainName: settings?.mainName || "Shafayet Ahmmed",
+    jobTitle:
+      settings?.jobTitle ||
+      "Engineering Leader, Full Stack Architect & DevOps Specialist",
+    bio:
+      settings?.bio ||
+      "I help teams clarify architecture, reduce delivery risk, and ship reliable software.",
+  };
+}
+
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const terminalProfile = await getTerminalProfile();
+
   return (
     <ClientThemeProvider>
       <div className="flex flex-col h-screen overflow-hidden">
@@ -45,7 +68,9 @@ export default function MainLayout({
 
         {/* ResponsiveLayout is a client component */}
         <div className="flex-1 overflow-hidden">
-          <ResponsiveLayout>{children}</ResponsiveLayout>
+          <ResponsiveLayout terminalProfile={terminalProfile}>
+            {children}
+          </ResponsiveLayout>
         </div>
       </div>
     </ClientThemeProvider>

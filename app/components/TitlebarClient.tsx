@@ -102,6 +102,10 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
     window.dispatchEvent(new Event("portfolio:open-command-center"));
   }, []);
 
+  const openTerminal = useCallback(() => {
+    window.dispatchEvent(new Event("portfolio:open-terminal"));
+  }, []);
+
   const showCommandOutput = useCallback((value: string) => {
     setCommandOutput(value);
     setIsOutputVisible(true);
@@ -219,14 +223,17 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
       ],
       Terminal: [
         {
-          label: "whoami",
-          detail: "Show current positioning.",
-          href: "/about",
+          label: "Open Terminal",
+          detail: "Launch the workspace terminal.",
+          run: openTerminal,
         },
         {
-          label: "pwd",
-          detail: "Show current file.",
-          run: () => showCommandOutput(`pwd -> ${activeFile.filename}`),
+          label: "Run help",
+          detail: "List terminal commands.",
+          run: () => {
+            openTerminal();
+            showCommandOutput("terminal.help");
+          },
         },
         {
           label: "open command-center",
@@ -253,7 +260,7 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
         },
       ],
     }),
-    [activeFile.filename, copyToClipboard, openCommandCenter, showCommandOutput]
+    [copyToClipboard, openCommandCenter, openTerminal, showCommandOutput]
   );
 
   const runMenuAction = async (action: MenuAction) => {
@@ -401,9 +408,16 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
                       ? "bg-[rgba(var(--accent-rgb),0.16)] text-(--accent-color)"
                       : "hover:bg-[rgba(255,255,255,0.1)]"
                   }`}
-                  onClick={() =>
-                    setActiveMenu((current) => (current === item ? null : item))
-                  }
+                  onClick={() => {
+                    if (item === "Terminal") {
+                      openTerminal();
+                      setActiveMenu(null);
+                      setMenuOpen(false);
+                      return;
+                    }
+
+                    setActiveMenu((current) => (current === item ? null : item));
+                  }}
                   onMouseEnter={() => {
                     if (activeMenu) setActiveMenu(item);
                   }}
@@ -478,6 +492,14 @@ export default function TitlebarClient({ mainName }: TitlebarClientProps) {
                       : "hover:bg-(--explorer-hover-bg)"
                   }`}
                   onClick={() => setActiveMenu(item)}
+                  onMouseDown={(event) => {
+                    if (item === "Terminal") {
+                      event.preventDefault();
+                      openTerminal();
+                      setMenuOpen(false);
+                      setActiveMenu(null);
+                    }
+                  }}
                 >
                   {item}
                 </button>
