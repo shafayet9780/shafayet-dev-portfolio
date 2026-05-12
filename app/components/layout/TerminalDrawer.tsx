@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  MouseEvent,
   FormEvent,
   KeyboardEvent,
   PointerEvent,
@@ -61,6 +62,8 @@ const themeOptions = [
 
 const autocompleteCandidates = [
   "help",
+  "exit",
+  "quit",
   "whoami",
   "status",
   "pwd",
@@ -80,6 +83,10 @@ const autocompleteCandidates = [
   "theme set dracula",
   "theme set nord",
   "theme set night-owl",
+  "theme set vs-dark",
+  "theme set dark-modern",
+  "theme set vs-light",
+  "theme set light-modern",
   "copy email",
   "copy url",
   "copy path",
@@ -152,6 +159,12 @@ const routeTargets: Record<string, { href: string; summary: string[] }> = {
   },
 };
 
+const commandOptionMap: Record<string, string[]> = {
+  open: Object.keys(routeTargets),
+  theme: ["list", "set", "next"],
+  copy: ["email", "url", "path"],
+};
+
 function normalizeCommand(value: string) {
   return value.trim().toLowerCase().replace(/\s+/g, "-");
 }
@@ -205,6 +218,22 @@ function getAutocompleteSuggestion(value: string) {
   );
 
   return match ? match.slice(normalizedInput.length) : "";
+}
+
+function getNextCompletionOption(options: string[], currentValue: string) {
+  if (!currentValue) return options[0] || "";
+
+  const exactIndex = options.indexOf(currentValue);
+
+  if (exactIndex >= 0) {
+    return options[(exactIndex + 1) % options.length] || "";
+  }
+
+  return (
+    options.find(
+      (option) => option.startsWith(currentValue) && option !== currentValue
+    ) || ""
+  );
 }
 
 function getTerminalTimestamp() {
@@ -268,6 +297,8 @@ export function TerminalDrawer({
   profile,
 }: TerminalDrawerProps) {
   const [input, setInput] = useState("");
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number | null>(null);
   const [terminalHeight, setTerminalHeight] = useState(360);
   const [timestamp, setTimestamp] = useState(getTerminalTimestamp);
   const [history, setHistory] = useState<TerminalLine[]>([
@@ -371,6 +402,7 @@ export function TerminalDrawer({
           "- theme [list|next|set <theme>]",
           "- copy <email|url|path>",
           "- deploy-check",
+          "- exit",
           "- clear",
         ],
       },
@@ -536,6 +568,15 @@ export function TerminalDrawer({
         summary: "Clear terminal history.",
         run: () => "clear",
       },
+      {
+        name: "exit",
+        aliases: ["quit", "close"],
+        summary: "Close the terminal.",
+        run: () => {
+          onClose();
+          return ["terminal.closed"];
+        },
+      },
     ],
     [
       activeFile.filename,
@@ -546,8 +587,75 @@ export function TerminalDrawer({
       setTheme,
       themeName,
       timestamp,
+      onClose,
     ]
   );
+
+  const getTabCompletion = (value: string) => {
+    const hasTrailingSpace = /\s$/.test(value);
+    const tokens = tokenizeCommand(value);
+    const [commandName, ...args] = tokens;
+
+    if (!commandName) return "";
+
+    if (commandName === "git") return "hub";
+
+    if (commandName === "theme" && args[0] === "set") {
+      const currentThemeInput =
+        hasTrailingSpace || args.length === 1 ? "" : args[1] || "";
+      const match = getNextCompletionOption(
+        themeOptions.map((theme) => theme.command),
+        currentThemeInput
+      );
+
+      if (match) return `theme set ${match}`;
+      return "";
+    }
+
+    const options = commandOptionMap[commandName];
+
+    if (options) {
+      const currentArg = hasTrailingSpace ? "" : args.at(-1) || "";
+      const match = getNextCompletionOption(options, currentArg);
+
+      if (match) return `${commandName} ${match}`;
+    }
+
+    const fullMatch = autocompleteCandidates.find(
+      (candidate) => candidate.startsWith(value) && candidate !== value
+    );
+
+    return fullMatch || "";
+  };
+
+  const applyCommandHistory = (direction: "previous" | "next") => {
+    if (commandHistory.length === 0) return false;
+
+    if (direction === "previous") {
+      const nextIndex =
+        historyIndex === null
+          ? commandHistory.length - 1
+          : Math.max(0, historyIndex - 1);
+
+      setHistoryIndex(nextIndex);
+      setInput(commandHistory[nextIndex] || "");
+      return true;
+    }
+
+    if (historyIndex === null) return false;
+
+    const nextIndex = historyIndex + 1;
+
+    if (nextIndex >= commandHistory.length) {
+      setHistoryIndex(null);
+      setInput("");
+      return true;
+    }
+
+    setHistoryIndex(nextIndex);
+    setInput(commandHistory[nextIndex] || "");
+    return true;
+  };
 
   const runCommand = async (rawValue: string) => {
     const normalized = normalizeCommand(rawValue);
@@ -556,6 +664,12 @@ export function TerminalDrawer({
     const args = tokens.slice(1);
 
     if (!normalized) return;
+
+    setCommandHistory((current) => {
+      if (current.at(-1) === rawValue) return current;
+      return [...current, rawValue].slice(-40);
+    });
+    setHistoryIndex(null);
 
     const command = commands.find(
       (item) =>
@@ -612,6 +726,13 @@ export function TerminalDrawer({
   };
 
   const acceptAutocomplete = () => {
+    const tabCompletion = getTabCompletion(input);
+
+    if (tabCompletion) {
+      setInput(tabCompletion);
+      return true;
+    }
+
     if (!autocompleteSuggestion) return false;
 
     setInput((current) => `${current}${autocompleteSuggestion}`);
@@ -621,6 +742,20 @@ export function TerminalDrawer({
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Tab") {
       if (acceptAutocomplete()) {
+        event.preventDefault();
+      }
+      return;
+    }
+
+    if (event.key === "ArrowUp") {
+      if (applyCommandHistory("previous")) {
+        event.preventDefault();
+      }
+      return;
+    }
+
+    if (event.key === "ArrowDown") {
+      if (applyCommandHistory("next")) {
         event.preventDefault();
       }
       return;
@@ -666,6 +801,20 @@ export function TerminalDrawer({
     window.addEventListener("pointerup", handlePointerUp);
   };
 
+  const focusTerminalInput = (
+    event: MouseEvent<HTMLElement> | PointerEvent<HTMLElement>
+  ) => {
+    const target = event.target as Element;
+
+    if (target.closest("button, input, [role='separator']")) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -694,6 +843,7 @@ export function TerminalDrawer({
         className="premium-panel signature-scan relative mx-2 mb-2 flex max-h-[76vh] min-h-[390px] w-full flex-col overflow-hidden rounded-lg border border-(--explorer-border) bg-(--article-bg) text-(--text-color) shadow-2xl md:mx-0 md:mb-0 md:min-h-0 md:max-h-[70vh] md:rounded-none md:border-x-0 md:border-b-0"
         style={{ height: `min(${terminalHeight}px, 70vh)` }}
         onMouseDown={(event) => event.stopPropagation()}
+        onClickCapture={focusTerminalInput}
       >
         <div
           className="absolute left-0 right-0 top-0 z-10 hidden h-2 cursor-ns-resize items-center justify-center md:flex"
@@ -746,12 +896,6 @@ export function TerminalDrawer({
         <div
           ref={outputRef}
           className="flex-1 cursor-text overflow-y-auto px-4 py-3 font-mono text-[12px] leading-6"
-          onMouseDown={(event) => {
-            const target = event.target as Element;
-            if (!target.closest("button")) {
-              inputRef.current?.focus();
-            }
-          }}
         >
           {history.map((entry, index) =>
             entry.type === "input" ? (
