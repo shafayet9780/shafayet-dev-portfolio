@@ -51,12 +51,12 @@ const capabilityAreas = [
   {
     title: "DevOps & Reliability",
     body: "Build release paths that reduce risk and raise production confidence.",
-    uses: "CI/CD, automation, observability",
+    uses: "CI/CD, automation, observability, AWS, GCP",
   },
   {
     title: "Product Engineering",
     body: "Connect product intent with maintainable frontend and content systems.",
-    uses: "Next.js, React, Sanity",
+    uses: "Full stack, React, Django, Go, PostgreSQL",
   },
 ];
 
@@ -352,7 +352,7 @@ function ExperienceSignal({
 
 function HandoffPanel() {
   return (
-    <section className="relative py-14">
+    <section className="relative py-8">
       <div className="grid gap-5 rounded-lg border border-(--explorer-border) bg-(--article-bg) p-5 shadow-xl lg:grid-cols-[1fr_auto] lg:items-center">
         <div>
           <p className="font-mono text-xs text-(--accent-color)">

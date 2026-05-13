@@ -83,7 +83,7 @@ function ExperienceLogo({ experience }: { experience: ExperienceItem }) {
 
 function EmptyTimeline() {
   return (
-    <div className="rounded-lg border border-(--explorer-border) bg-(--article-bg) p-6 shadow-xl">
+    <div className="rounded-lg border border-(--explorer-border) bg-(--article-bg) p-6 shadow-xl mt-8">
       <p className="font-mono text-xs text-(--accent-color)">
         experience.timeline
       </p>
