@@ -137,8 +137,19 @@ export default function Explorer() {
 
       <div className="border-t border-(--explorer-border) px-4 py-3">
         <button
-          onClick={() => window.dispatchEvent(new Event("portfolio:open-command-center"))}
+          onClick={() =>
+            window.dispatchEvent(new Event("portfolio:open-terminal"))
+          }
           className="w-full rounded-md border border-(--explorer-border) bg-(--main-bg)/60 px-3 py-2 text-left font-mono text-xs text-(--text-color) transition-colors hover:border-(--accent-color)"
+        >
+          <span className="text-(--accent-color)">terminal</span>
+          <span className="float-right opacity-50">Ctrl `</span>
+        </button>
+        <button
+          onClick={() =>
+            window.dispatchEvent(new Event("portfolio:open-command-center"))
+          }
+          className="mt-2 w-full rounded-md border border-(--explorer-border) bg-(--main-bg)/60 px-3 py-2 text-left font-mono text-xs text-(--text-color) transition-colors hover:border-(--accent-color)"
         >
           <span className="text-(--accent-color)">cmd</span> palette
           <span className="float-right opacity-50">⌘K</span>

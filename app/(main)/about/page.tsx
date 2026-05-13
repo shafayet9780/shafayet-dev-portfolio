@@ -7,8 +7,10 @@ import {
   SiNextdotjs,
   SiNodedotjs,
   SiReact,
-  SiSanity,
   SiTypescript,
+  SiPython,
+  SiGo,
+  SiDjango,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
 import {
@@ -56,7 +58,9 @@ const fallbackSkills = [
   "React",
   "TypeScript",
   "Node.js",
-  "Sanity CMS",
+  "Python",
+  "Django",
+  "Go",
   "DevOps",
   "CI/CD",
   "Architecture",
@@ -80,7 +84,9 @@ function getSkillIcon(skill: string): IconType {
   if (normalized.includes("react")) return SiReact;
   if (normalized.includes("type")) return SiTypescript;
   if (normalized.includes("node")) return SiNodedotjs;
-  if (normalized.includes("sanity")) return SiSanity;
+  if (normalized.includes("python")) return SiPython;
+  if (normalized.includes("django")) return SiDjango;
+  if (normalized.includes("go")) return SiGo;
   if (normalized.includes("ci") || normalized.includes("cd")) return SiGithubactions;
   if (normalized.includes("devops")) return FaServer;
   if (normalized.includes("architecture")) return FaServer;
